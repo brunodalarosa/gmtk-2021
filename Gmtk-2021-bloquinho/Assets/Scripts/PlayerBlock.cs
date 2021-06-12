@@ -35,6 +35,7 @@ namespace GMTK2021
         private Vector3 _velocity = Vector3.zero;
         private float Smoothness => 0.05f;
         public bool Grounded { get; private set; }
+        public bool FacingRight { get; private set; }
 
         protected override void DidAwake()
         {
@@ -42,8 +43,9 @@ namespace GMTK2021
             PositionFromPlayer = Vector2.zero;
             PlayerBlock = this;
             IsConnected = true;
-            
+
             tag = "Player";
+            FacingRight = true;
         }
 
         private void Update()
