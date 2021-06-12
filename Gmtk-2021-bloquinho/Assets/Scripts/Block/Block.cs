@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -23,131 +22,83 @@ namespace GMTK2021
         protected PlayerBlock PlayerBlock { get; set; }
         protected bool IsConnected { private get; set; }
 
-        private bool DoingAction { get; set; }
         private Transform Transform { get; set; }
-        private Dictionary<Direction, Block> Blocks { get; set; }
         
         private void Awake()
         {
             Transform = transform;
             IsConnected = false;
             tag = "Block";
-            Blocks = new Dictionary<Direction, Block>
-                {{Direction.Left, null}, {Direction.Up, null}, {Direction.Right, null}, {Direction.Down, null}};
             
             DidAwake();
         }
         
-        protected void DoAction()
+        public void DoAction()
         {
-            if (DoingAction)
-                return;
-            
-            DoingAction = true;
-            
             Action();
-
-            foreach (var block in Blocks.Values)
-            {
-                if (block != null)
-                    block.DoAction();
-            }
-            
-            DoingAction = false;
         }
 
-        private void ConnectBlock(Block block, Direction direction)
+        private void ConnectBlock(Block newBlock, Direction direction)
         {
-            Blocks[direction] = block;
-            block.ConnectBlockFrom(this, direction, PlayerBlock);
+            AddNeighbour(newBlock, direction);
+            newBlock.ConnectBlockFrom(this, direction, PlayerBlock);
         }
         
-        private void ConnectBlockFrom(Block block, Direction direction, PlayerBlock playerBlock)
+        private void ConnectBlockFrom(Block parentBlock, Direction direction, PlayerBlock playerBlock)
         {
             PlayerBlock = playerBlock;
-            Blocks[direction.Opposite()] = block;
-
-            Transform.SetParent(block.Transform);
+            
+            Transform.SetParent(parentBlock.Transform);
             Transform.localPosition = direction.AsVector3() * 1.05f; // Para dar um espaço entre os blocos
 
-            PositionFromPlayer = block.PositionFromPlayer + direction.AsVector2();
+            PositionFromPlayer = parentBlock.PositionFromPlayer + direction.AsVector2();
             gameObject.name = $"{direction.ToString()}, x:{PositionFromPlayer.x}, y:{PositionFromPlayer.y}";
 
             SetupRigidbody();
             
             IsConnected = true;
-
-            SetupNeighbors(direction);
-            
-            OnConnect();
         }
 
         private void SetupRigidbody()
         {
             var rg = gameObject.AddComponent<Rigidbody2D>();
 
-            rg.bodyType = RigidbodyType2D.Kinematic;
+            rg.bodyType = RigidbodyType2D.Dynamic;
             rg.freezeRotation = true;
+            rg.mass = 0f;
+            rg.gravityScale = 0f;
             
             Collider.isTrigger = false;
         }
 
-        // Configura todos os vizinhos do novo objeto adicionado
-        private void SetupNeighbors(Direction direction)
-        {
-            // Cria uma lista de direções que forma um circulo a partir da posição de entrada. Lembrando que Opposite e ClockWise não alteram o objeto, então precisa chamar repetido
-            var directions = new List<Direction> {direction.Opposite().Clockwise(), 
-                direction.Opposite().Clockwise().Clockwise(), direction.Opposite().Clockwise().Clockwise(), 
-                direction.Opposite().Clockwise().Clockwise().Clockwise(),
-                direction.Opposite().Clockwise().Clockwise().Clockwise(), 
-                direction.Opposite().Clockwise().Clockwise().Clockwise().Clockwise()};
-
-            var currentBlockIndex = 0;
-            var currentDirection = directions[currentBlockIndex];
-            var currentBlock = Blocks[direction.Opposite()].Blocks[currentDirection];
-
-            while (currentBlock != null)
-            {
-                if (currentBlockIndex % 2 != 0)
-                {
-                    currentBlock.Blocks[currentDirection.Clockwise()] = this;
-                    Blocks[currentDirection.Clockwise().Opposite()] = currentBlock;
-                }
-                
-                currentBlockIndex++;
-                currentDirection = directions[currentBlockIndex];
-                currentBlock = currentBlock.Blocks[currentDirection];
-            }
-        }
-
-        private void AddBlock(Block block, Direction direction)
-        {
-            if (Blocks[direction] != null)
-            {
-                Debug.Log("Tentando adicionar um bloco onde não PODE!!!");
-                return;
-            }
-            
-            ConnectBlock(block, direction);
-        }
-        
-        private void AddBlock(Block block)
+        private void AddBlockClockwise(Block block)
         {
             var direction = Direction.Down;
             
             // Ordem de adição dos blocos. Para alterar, só alterar a ordem da validação. Pode ser até aleatório.
             
-            if (Blocks[Direction.Up] == null)
+            if (!HasNeighbour(Direction.Up))
                 direction = Direction.Up;
-            else if (Blocks[Direction.Right] == null)
+            else if (!HasNeighbour(Direction.Right))
                 direction = Direction.Right;
-            else if (Blocks[Direction.Left] == null)
+            else if (!HasNeighbour(Direction.Left))
                 direction = Direction.Left;
             
             if (direction != Direction.Down)
                 ConnectBlock(block, direction);
             else // Todas as direções estão ocupadas, vai para a próxima. Está priorizando left mas pode ser alterado
-                Blocks[Direction.Left].AddBlock(block);
+                PlayerBlock.GetBlock(PositionFromPlayer + Direction.Left.AsVector2()).AddBlockClockwise(block);
+        }
+
+        private void AddBlockFromCollision(Block block, GameObject go)
+        {
+            var direction = go.transform.position - transform.position;
+            // Debug.Log("[OnTriggerEnter2D] direction -> " + direction);
+
+            if (math.abs(direction.x) > math.abs(direction.y)) //É uma conexão horizontal
+                ConnectBlock(block, direction.x < 0 ? Direction.Left : Direction.Right);
+            else //É uma conexão vertical
+                ConnectBlock(block, direction.y < 0 ? Direction.Down : Direction.Up);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -167,20 +118,32 @@ namespace GMTK2021
             
             Debug.Log($"Trigger: from:{gameObject.name}, to:{go.name}");
 
-            if (BlockAddMode == 0) AddBlock(block);
+            if (BlockAddMode == 0) 
+                AddBlockClockwise(block);
             else
-            {
-                var direction = go.transform.position - transform.position;
-                // Debug.Log("[OnTriggerEnter2D] direction -> " + direction);
-
-                if (math.abs(direction.x) > math.abs(direction.y)) //É uma conexão horizontal
-                    AddBlock(block, direction.x < 0 ? Direction.Left : Direction.Right);
-                else //É uma conexão vertical
-                    AddBlock(block, direction.y < 0 ? Direction.Down : Direction.Up);
-            }
+                AddBlockFromCollision(block, go);
         }
 
-        protected virtual void OnConnect() { }
+        private void AddNeighbour(Block block, Direction direction)
+        {
+            PlayerBlock.AddBlock(block, PositionFromPlayer + direction.AsVector2());
+        }
+
+        private Block GetNeighbour(Direction direction)
+        {
+            return PlayerBlock.GetBlock(PositionFromPlayer + direction.AsVector2());
+        }
+        
+        private Block GetNeighbourSafe(Direction direction)
+        {
+            return PlayerBlock.GetBlockSafe(PositionFromPlayer + direction.AsVector2());
+        }
+
+        private bool HasNeighbour(Direction direction)
+        {
+            return GetNeighbourSafe(direction) != null;
+        }
+
         protected virtual void DidAwake() { }
         protected abstract void Action();
     }
