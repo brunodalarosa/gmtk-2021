@@ -55,7 +55,6 @@ namespace GMTK2021
         private void Update()
         {
             HandleMovement();
-            HandleAnimation();
             
             if (Input.GetKey(KeyCode.Space)) 
                 ApplyAction();
@@ -63,6 +62,7 @@ namespace GMTK2021
 
         private void FixedUpdate()
         {
+            HandleAnimation();
             Grounded = Physics2D.OverlapCircle(FeetPos.position, FeetRadius, GroundLayer);
         }
 
@@ -77,9 +77,9 @@ namespace GMTK2021
         private void HandleAnimation()
         {
             Animator.SetFloat("MoveX", Rigidbody2D.velocity.x);
-            if (Rigidbody2D.velocity.x > 0.1)
+            if (Rigidbody2D.velocity.x > 0.3)
                 SpriteRenderer.flipX = false;
-            else if (Rigidbody2D.velocity.x < -0.1)
+            else if (Rigidbody2D.velocity.x < -0.3)
                 SpriteRenderer.flipX = true;
 
 

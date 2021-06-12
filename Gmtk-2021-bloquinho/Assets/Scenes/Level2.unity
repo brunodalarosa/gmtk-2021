@@ -480,6 +480,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1888448643389643391, guid: 7ef5a09d28e818f43ae62d9edb0cb195, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: b06eed6682b364c4094cc8cfd2e40c07, type: 2}
+    - target: {fileID: 1888448643389643391, guid: 7ef5a09d28e818f43ae62d9edb0cb195, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1888448643389643391, guid: 7ef5a09d28e818f43ae62d9edb0cb195, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ef5a09d28e818f43ae62d9edb0cb195, type: 3}
 --- !u!4 &755141125 stripped
@@ -574,6 +586,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3754862370683392607, guid: 957063765b82c394f8959c6c5fd6f051, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: dcbcb703b1eac07498bcd30038439183, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 957063765b82c394f8959c6c5fd6f051, type: 3}
 --- !u!4 &906909209 stripped
