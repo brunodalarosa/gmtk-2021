@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace GMTK2021
@@ -12,6 +13,8 @@ namespace GMTK2021
      */
     public abstract class Block : MonoBehaviour
     {
+        private const int BlockAddMode = 1; // 0 para clockwise, 1 para direção do bloco que encostou
+
         [SerializeField]
         private Collider2D _collider;
         private Collider2D Collider => _collider;
@@ -116,6 +119,17 @@ namespace GMTK2021
                 currentBlock = currentBlock.Blocks[currentDirection];
             }
         }
+
+        private void AddBlock(Block block, Direction direction)
+        {
+            if (Blocks[direction] != null)
+            {
+                Debug.Log("Tentando adicionar um bloco onde não PODE!!!");
+                return;
+            }
+            
+            ConnectBlock(block, direction);
+        }
         
         private void AddBlock(Block block)
         {
@@ -152,8 +166,18 @@ namespace GMTK2021
                 return;
             
             Debug.Log($"Trigger: from:{gameObject.name}, to:{go.name}");
-            
-            AddBlock(block);
+
+            if (BlockAddMode == 0) AddBlock(block);
+            else
+            {
+                var direction = go.transform.position - transform.position;
+                // Debug.Log("[OnTriggerEnter2D] direction -> " + direction);
+
+                if (math.abs(direction.x) > math.abs(direction.y)) //É uma conexão horizontal
+                    AddBlock(block, direction.x < 0 ? Direction.Left : Direction.Right);
+                else //É uma conexão vertical
+                    AddBlock(block, direction.y < 0 ? Direction.Down : Direction.Up);
+            }
         }
 
         protected virtual void OnConnect() { }
