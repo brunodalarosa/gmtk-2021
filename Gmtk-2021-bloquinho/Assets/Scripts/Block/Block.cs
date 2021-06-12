@@ -48,7 +48,8 @@ namespace GMTK2021
             PlayerBlock = playerBlock;
             
             Transform.SetParent(parentBlock.Transform);
-            Transform.localPosition = direction.AsVector3() * 1.05f; // Para dar um espaço entre os blocos
+            Transform.localPosition = direction.AsVector3();
+            Transform.rotation = PlayerBlock.Transform.rotation;
 
             PositionFromPlayer = parentBlock.PositionFromPlayer + direction.AsVector2();
             gameObject.name = $"{direction.ToString()}, x:{PositionFromPlayer.x}, y:{PositionFromPlayer.y}";
