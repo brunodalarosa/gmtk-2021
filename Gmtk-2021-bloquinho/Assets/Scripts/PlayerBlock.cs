@@ -16,12 +16,26 @@ namespace GMTK2021
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
-        
+
+        [Header("Feet")]
+        [SerializeField]
+        private Transform _feetPos = null;
+        private Transform FeetPos => _feetPos;
+
+        [SerializeField]
+        private float _feetRadius = 0;
+        private float FeetRadius => _feetRadius;
+
+        [SerializeField]
+        private LayerMask _groundLayer;
+        private LayerMask GroundLayer => _groundLayer;
+
         private Dictionary<Vector2, Block> BlockGrid { get; set; }
-        
+
         private Vector3 _velocity = Vector3.zero;
         private float Smoothness => 0.05f;
-        
+        public bool Grounded { get; private set; }
+
         protected override void DidAwake()
         {
             BlockGrid = new Dictionary<Vector2, Block>();
@@ -29,19 +43,24 @@ namespace GMTK2021
             PlayerBlock = this;
             IsConnected = true;
         }
-        
+
         private void Update()
         {
             HandleMovement();
-            
-            if (Input.GetKey(KeyCode.Space)) 
+
+            if (Input.GetKey(KeyCode.Space))
                 ApplyAction();
+        }
+
+        private void FixedUpdate()
+        {
+            Grounded = Physics2D.OverlapCircle(FeetPos.position, FeetRadius, GroundLayer);
         }
 
         private void HandleMovement()
         {
             var velocity = Rigidbody2D.velocity;
-            
+
             Vector3 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * 10f, velocity.y);
             Rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, Smoothness);
         }
@@ -53,11 +72,11 @@ namespace GMTK2021
                 block.DoAction();
             }
         }
-        
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             var go = other.gameObject;
-            
+
             if (!go.CompareTag("Block"))
                 return;
 
@@ -65,7 +84,7 @@ namespace GMTK2021
 
             if (block.IsConnected)
                 return;
-            
+
             Debug.Log($"Trigger: from:{gameObject.name}, to:{go.name}");
 
             var realCollidedBlock = GetNearestBlockFromCollision(go);
