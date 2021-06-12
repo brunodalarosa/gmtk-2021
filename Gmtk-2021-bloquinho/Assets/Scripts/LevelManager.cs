@@ -37,6 +37,7 @@ public class LevelManager : MonoBehaviour
 
     public void ResetCurrentLevel()
     {
+        //TODO: animação de transição
         SceneManager.LoadScene(Scenes[CurrentIndex].name);
     }
 }
