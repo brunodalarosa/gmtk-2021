@@ -5,8 +5,6 @@ using UnityEngine;
 public class MovementHandler : MonoBehaviour
 {
     public Rigidbody2D Rigidbody2D;
-
-    [SerializeField] private float Speed = 1f;
     private Vector3 Velocity = Vector3.zero;
     private float Smoothness = 0.05f;
     
