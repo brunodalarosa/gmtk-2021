@@ -5,7 +5,7 @@ namespace GMTK2021
     public class JumpBlock : Block
     {
         [SerializeField]
-        private float _jumpForce = 2.5f;
+        private float _jumpForce = 15f;
         private float JumpForce => _jumpForce;
 
         protected override void Action()
