@@ -5,6 +5,7 @@ using UnityEngine;
 public class MovementHandler : MonoBehaviour
 {
     public Rigidbody2D Rigidbody2D;
+
     private Vector3 Velocity = Vector3.zero;
     private float Smoothness = 0.05f;
     
