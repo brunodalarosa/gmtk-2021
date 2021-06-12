@@ -42,6 +42,8 @@ namespace GMTK2021
             PositionFromPlayer = Vector2.zero;
             PlayerBlock = this;
             IsConnected = true;
+            
+            tag = "Player";
         }
 
         private void Update()
