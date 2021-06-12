@@ -12,7 +12,6 @@ namespace GMTK2021
      */
     public abstract class Block : MonoBehaviour
     {
-        private const int BlockAddMode = 1; // 0 para clockwise, 1 para direção do bloco que encostou
 
         [SerializeField]
         private Collider2D _collider;
@@ -20,7 +19,7 @@ namespace GMTK2021
 
         protected Vector2 PositionFromPlayer { get; set; }
         protected PlayerBlock PlayerBlock { get; set; }
-        protected bool IsConnected { private get; set; }
+        public bool IsConnected { get; set; }
 
         private Transform Transform { get; set; }
         
@@ -54,24 +53,13 @@ namespace GMTK2021
             PositionFromPlayer = parentBlock.PositionFromPlayer + direction.AsVector2();
             gameObject.name = $"{direction.ToString()}, x:{PositionFromPlayer.x}, y:{PositionFromPlayer.y}";
 
-            SetupRigidbody();
+            Collider.isTrigger = false;
+            Collider.usedByComposite = true;
             
             IsConnected = true;
         }
 
-        private void SetupRigidbody()
-        {
-            var rg = gameObject.AddComponent<Rigidbody2D>();
-
-            rg.bodyType = RigidbodyType2D.Dynamic;
-            rg.freezeRotation = true;
-            rg.mass = 0f;
-            rg.gravityScale = 0f;
-            
-            Collider.isTrigger = false;
-        }
-
-        private void AddBlockClockwise(Block block)
+        public void AddBlockClockwise(Block block)
         {
             var direction = Direction.Down;
             
@@ -90,7 +78,7 @@ namespace GMTK2021
                 PlayerBlock.GetBlock(PositionFromPlayer + Direction.Left.AsVector2()).AddBlockClockwise(block);
         }
 
-        private void AddBlockFromCollision(Block block, GameObject go)
+        public void AddBlockFromCollision(Block block, GameObject go)
         {
             var direction = go.transform.position - transform.position;
             // Debug.Log("[OnTriggerEnter2D] direction -> " + direction);
@@ -99,29 +87,6 @@ namespace GMTK2021
                 ConnectBlock(block, direction.x < 0 ? Direction.Left : Direction.Right);
             else //É uma conexão vertical
                 ConnectBlock(block, direction.y < 0 ? Direction.Down : Direction.Up);
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (!IsConnected)
-                return;
-
-            var go = other.gameObject;
-            
-            if (!go.CompareTag("Block"))
-                return;
-
-            var block = go.GetComponent<Block>();
-
-            if (block.IsConnected)
-                return;
-            
-            Debug.Log($"Trigger: from:{gameObject.name}, to:{go.name}");
-
-            if (BlockAddMode == 0) 
-                AddBlockClockwise(block);
-            else
-                AddBlockFromCollision(block, go);
         }
 
         private void AddNeighbour(Block block, Direction direction)
