@@ -44,6 +44,7 @@ public class LevelManager : MonoBehaviour
     public void ResetCurrentLevel()
     {
         //TODO: animação de transição
+        HeadsUpDisplay.Instance.Reset();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
