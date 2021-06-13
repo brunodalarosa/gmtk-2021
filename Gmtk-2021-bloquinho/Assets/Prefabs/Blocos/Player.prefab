@@ -164,7 +164,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: b06eed6682b364c4094cc8cfd2e40c07, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &1888448643389643363
 MonoBehaviour:
@@ -179,8 +179,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 4577116929325341989}
-  _rigidbody2D: {fileID: 1888448643389643391}
   _animator: {fileID: 2027757439}
+  _rigidbody2D: {fileID: 1888448643389643391}
   _spriteRenderer: {fileID: 1888448643389643389}
   _feetPos: {fileID: 8327993341779400402}
   _feetRadius: 0.5
