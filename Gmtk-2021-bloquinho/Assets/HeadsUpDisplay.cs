@@ -10,7 +10,7 @@ public class HeadsUpDisplay : MonoBehaviour
     [SerializeField]
     private GameObject _holder = null;
     private GameObject Holder => _holder;
-    
+
     [Header("Jump")]
     [SerializeField]
     private GameObject jumpUI = null;
@@ -27,7 +27,7 @@ public class HeadsUpDisplay : MonoBehaviour
     [SerializeField]
     private Image _jumpKey = null;
     private Image JumpKey => _jumpKey;
-    
+
     [Header("Shooter")]
     [SerializeField]
     private GameObject dashUI = null;
@@ -45,7 +45,7 @@ public class HeadsUpDisplay : MonoBehaviour
     private Image _dashKey = null;
     private Image DashKey => _dashKey;
 
-    
+
     [Header("Shooter")]
     [SerializeField]
     private GameObject shooterUI = null;
@@ -66,7 +66,7 @@ public class HeadsUpDisplay : MonoBehaviour
     public static HeadsUpDisplay Instance { get; private set; }
 
     private bool ShowingHud { get; set; }
-    
+
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -98,10 +98,10 @@ public class HeadsUpDisplay : MonoBehaviour
         JumpQtd.text = "x" + qtd;
 
         float alpha = qtd < 1 ? 0.3f : 1.0f;
-        
+
         JumpIcon.color = new Color(JumpIcon.color.r, JumpIcon.color.g, JumpIcon.color.b, alpha);
         JumpKey.color = new Color(JumpKey.color.r, JumpKey.color.g, JumpKey.color.b, alpha);
-        
+
         JumpUI.gameObject.SetActive(true);
 
         if (!ShowingHud)
@@ -110,7 +110,7 @@ public class HeadsUpDisplay : MonoBehaviour
             ShowingHud = true;
         }
     }
-    
+
     public void UpdateDash(bool show, int qtd = 1)
     {
         if (!show)
@@ -122,17 +122,22 @@ public class HeadsUpDisplay : MonoBehaviour
         DashQtd.text = "x" + qtd;
 
         float alpha = qtd < 1 ? 0.3f : 1.0f;
-        
+
         DashIcon.color = new Color(DashIcon.color.r, DashIcon.color.g, DashIcon.color.b, alpha);
         DashKey.color = new Color(DashKey.color.r, DashKey.color.g, DashKey.color.b, alpha);
-        
+
         DashUI.gameObject.SetActive(true);
-        
+
         if (!ShowingHud)
         {
             Holder.gameObject.SetActive(true);
             ShowingHud = true;
         }
+    }
+
+    public void UpdateLagolas(bool show, int qtd = 1)
+    {
+
     }
 
     public void UpdateShooter(bool show, int qtd = 1)
@@ -146,17 +151,17 @@ public class HeadsUpDisplay : MonoBehaviour
         ShooterQtd.text = "x" + qtd;
 
         float alpha = qtd < 1 ? 0.3f : 1.0f;
-        
+
         ShooterIcon.color = new Color(ShooterIcon.color.r, ShooterIcon.color.g, ShooterIcon.color.b, alpha);
         ShooterKey.color = new Color(ShooterKey.color.r, ShooterKey.color.g, ShooterKey.color.b, alpha);
-        
+
         ShooterUI.gameObject.SetActive(true);
-        
+
         if (!ShowingHud)
         {
             Holder.gameObject.SetActive(true);
             ShowingHud = true;
         }
     }
-    
+
 }

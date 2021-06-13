@@ -79,9 +79,15 @@ namespace GMTK2021
         {
             Animator.SetFloat("MoveX", Rigidbody2D.velocity.x);
             if (Rigidbody2D.velocity.x > 0.3)
+            {
                 SpriteRenderer.flipX = false;
+                FacingRight = true;
+            }
             else if (Rigidbody2D.velocity.x < -0.3)
+            {
                 SpriteRenderer.flipX = true;
+                FacingRight = false;
+            }
         }
 
         private void ApplyAction()
@@ -144,12 +150,17 @@ namespace GMTK2021
                     var qtdDashes = BlockGrid.Values.Count(b => b is DashBlock);
                     HeadsUpDisplay.Instance.UpdateDash(true, qtdDashes);
                     break;
-                
+
                 case JumpBlock jumpBlock:
                     var qtdJumps = BlockGrid.Values.Count(b => b is JumpBlock);
                     HeadsUpDisplay.Instance.UpdateJump(true, qtdJumps);
                     break;
-                
+
+                case LagolasBlock lagolasBlock:
+                    var qtdLagolas = BlockGrid.Values.Count(b => b is JumpBlock);
+                    HeadsUpDisplay.Instance.UpdateLagolas(true, qtdLagolas);
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(block));
             }
