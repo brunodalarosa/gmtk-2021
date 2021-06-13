@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27efe21d36aa9f478753afa71ae83e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 0}
+  _collider: {fileID: 2837916015696136840}
   _animator: {fileID: -3458198636152374026}
   _bulletPrefab: {fileID: 9074908899807829313, guid: 1be97347d425cff4884b5af32ff3c006, type: 3}
 --- !u!95 &-3458198636152374026
