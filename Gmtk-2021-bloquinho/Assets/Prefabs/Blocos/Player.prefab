@@ -179,11 +179,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 4577116929325341989}
-  _rigidbody2D: {fileID: 1888448643389643391}
   _animator: {fileID: 2027757439}
+  _rigidbody2D: {fileID: 1888448643389643391}
   _spriteRenderer: {fileID: 1888448643389643389}
   _feetPos: {fileID: 8327993341779400402}
-  _feetRadius: 0.5
+  _feetRadius: 0.2
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64

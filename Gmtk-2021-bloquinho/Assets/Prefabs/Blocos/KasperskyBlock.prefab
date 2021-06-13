@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 3400288565706928212}
+  _animator: {fileID: -4118852512405544797}
   _dashForce: 120
 --- !u!95 &-4118852512405544797
 Animator:

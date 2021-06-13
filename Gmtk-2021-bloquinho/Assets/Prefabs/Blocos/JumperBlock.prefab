@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 3706393897644174734}
+  _animator: {fileID: -6069829832707849236}
   _jumpForce: 19
 --- !u!60 &3706393897644174734
 PolygonCollider2D:
