@@ -13,11 +13,7 @@ namespace GMTK2021
         [SerializeField]
         private Rigidbody2D _rigidbody2D;
         public Rigidbody2D Rigidbody2D => _rigidbody2D;
-
-        [SerializeField]
-        private Animator _animator;
-        public Animator Animator => _animator;
-
+        
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
@@ -56,7 +52,6 @@ namespace GMTK2021
         private void Update()
         {
             HandleMovement();
-
             if (Input.GetKeyDown(KeyCode.Space))
                 ApplyAction();
         }
@@ -70,7 +65,6 @@ namespace GMTK2021
         private void HandleMovement()
         {
             var velocity = Rigidbody2D.velocity;
-
             Vector3 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * 10f, velocity.y);
             Rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, Smoothness);
         }
@@ -78,6 +72,12 @@ namespace GMTK2021
         private void HandleAnimation()
         {
             Animator.SetFloat("MoveX", Rigidbody2D.velocity.x);
+            
+            foreach (var block in BlockGrid.Values)
+            {
+                block.Animator.SetFloat("MoveX", Rigidbody2D.velocity.x);
+            }
+            
             if (Rigidbody2D.velocity.x > 0.3)
             {
                 SpriteRenderer.flipX = false;

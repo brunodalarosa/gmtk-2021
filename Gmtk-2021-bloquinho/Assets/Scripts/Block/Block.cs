@@ -17,6 +17,10 @@ namespace GMTK2021
         private Collider2D _collider;
         private Collider2D Collider => _collider;
 
+        [SerializeField]
+        protected Animator _animator;
+        public Animator Animator => _animator;
+        
         protected Vector2 PositionFromPlayer { get; set; }
         protected PlayerBlock PlayerBlock { get; set; }
         public bool IsConnected { get; set; }
