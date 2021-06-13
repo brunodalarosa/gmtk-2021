@@ -3571,7 +3571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7850549073286520001, guid: ba6769305ba8ef84291a809dc1367985, type: 3}
       propertyPath: _scenes.Array.size
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7850549073286520001, guid: ba6769305ba8ef84291a809dc1367985, type: 3}
       propertyPath: _scenes.Array.data[1]
@@ -3611,6 +3611,14 @@ PrefabInstance:
       objectReference: {fileID: 102900000, guid: 8d863a76f31cfbe4da7492d28419a49d, type: 3}
     - target: {fileID: 7850549073286520001, guid: ba6769305ba8ef84291a809dc1367985, type: 3}
       propertyPath: _scenes.Array.data[10]
+      value: 
+      objectReference: {fileID: 102900000, guid: e380afc3224d9d644b5094435b5f569d, type: 3}
+    - target: {fileID: 7850549073286520001, guid: ba6769305ba8ef84291a809dc1367985, type: 3}
+      propertyPath: _scenes.Array.data[11]
+      value: 
+      objectReference: {fileID: 102900000, guid: c2d00ce48d4ff16448160bbd1d937bda, type: 3}
+    - target: {fileID: 7850549073286520001, guid: ba6769305ba8ef84291a809dc1367985, type: 3}
+      propertyPath: _scenes.Array.data[12]
       value: 
       objectReference: {fileID: 102900000, guid: c2d00ce48d4ff16448160bbd1d937bda, type: 3}
     - target: {fileID: 7850549073286520002, guid: ba6769305ba8ef84291a809dc1367985, type: 3}
