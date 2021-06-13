@@ -39,7 +39,7 @@ namespace GMTK2021
         private float Smoothness => 0.05f;
         public bool Grounded { get; private set; }
         public bool FacingRight { get; private set; }
-        
+
         private bool PlayingWalkSound { get; set; }
 
         protected override void DidAwake()
@@ -57,14 +57,14 @@ namespace GMTK2021
         private void Update()
         {
             HandleMovement();
-            
-            
+
+
             if (Input.GetKeyDown(KeyCode.Space))
                 ApplyJumpAction();
-            
+
             if (Input.GetKeyDown(KeyCode.J))
                 ApplyDashAction();
-            
+
             if (Input.GetKeyDown(KeyCode.K))
                 ApplyShootAction();
         }
@@ -91,7 +91,7 @@ namespace GMTK2021
         {
             PlayingWalkSound = true;
             yield return new WaitForSeconds(WalkSfxSecondsInterval);
-            AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.WalkStep);
+            AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.WalkStep);
             PlayingWalkSound = false;
         }
 
@@ -118,12 +118,22 @@ namespace GMTK2021
 
         private void ApplyJumpAction()
         {
-            foreach (var block in BlockGrid.Values.Where(block => block is JumpBlock))
+            var qtdJumps = PlayerBlock.BlockGrid.Values.Count(b => b is JumpBlock);
+            var force = 0f;
+            var initialForce = (PlayerBlock.BlockGrid.Values.FirstOrDefault(b => b is JumpBlock) as JumpBlock).JumpForce;
+            for (int i = 0; i < qtdJumps; i++)
             {
-                block.DoAction();
+                force += initialForce;
+                initialForce /= 2;
+            }
+
+            if (PlayerBlock.Grounded)
+            {
+                PlayerBlock.Rigidbody2D.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.Jump);
             }
         }
-        
+
         private void ApplyDashAction()
         {
             foreach (var block in BlockGrid.Values.Where(block => block is DashBlock))
@@ -131,7 +141,7 @@ namespace GMTK2021
                 block.DoAction();
             }
         }
-        
+
         private void ApplyShootAction()
         {
             foreach (var block in BlockGrid.Values.Where(block => block is LagolasBlock))
@@ -190,17 +200,17 @@ namespace GMTK2021
             {
                 case DashBlock dashBlock:
                     var qtdDashes = BlockGrid.Values.Count(b => b is DashBlock);
-                    HeadsUpDisplay.Instance.UpdateDash(true, qtdDashes);
+                    HeadsUpDisplay.Instance?.UpdateDash(true, qtdDashes);
                     break;
 
                 case JumpBlock jumpBlock:
                     var qtdJumps = BlockGrid.Values.Count(b => b is JumpBlock);
-                    HeadsUpDisplay.Instance.UpdateJump(true, qtdJumps);
+                    HeadsUpDisplay.Instance?.UpdateJump(true, qtdJumps);
                     break;
 
                 case LagolasBlock lagolasBlock:
                     var qtdLagolas = BlockGrid.Values.Count(b => b is JumpBlock);
-                    HeadsUpDisplay.Instance.UpdateLagolas(true, qtdLagolas);
+                    HeadsUpDisplay.Instance?.UpdateLagolas(true, qtdLagolas);
                     break;
 
                 default:

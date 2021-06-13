@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace GMTK2021
 {
@@ -6,15 +7,10 @@ namespace GMTK2021
     {
         [SerializeField]
         private float _jumpForce = 15f;
-        private float JumpForce => _jumpForce;
+        public float JumpForce => _jumpForce;
 
         protected override void Action()
         {
-            if (PlayerBlock.Grounded)
-            {
-                PlayerBlock.Rigidbody2D.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
-                AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.Jump);
-            }
         }
     }
 }
