@@ -45,6 +45,7 @@ namespace GMTK2021
         {
             AddNeighbour(newBlock, direction);
             newBlock.ConnectBlockFrom(this, direction, PlayerBlock);
+            AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.BlockConnect);
         }
         
         private void ConnectBlockFrom(Block parentBlock, Direction direction, PlayerBlock playerBlock)

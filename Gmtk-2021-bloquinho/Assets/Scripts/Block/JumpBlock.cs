@@ -11,7 +11,10 @@ namespace GMTK2021
         protected override void Action()
         {
             if (PlayerBlock.Grounded)
+            {
                 PlayerBlock.Rigidbody2D.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+                AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.Jump);
+            }
         }
     }
 }

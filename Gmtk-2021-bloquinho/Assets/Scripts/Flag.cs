@@ -1,3 +1,4 @@
+using GMTK2021;
 using UnityEngine;
 
 public class Flag : MonoBehaviour
@@ -9,6 +10,7 @@ public class Flag : MonoBehaviour
         if (!go.CompareTag("Player"))
             return;
 
+        AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.LevelComplete);
         LevelManager.Instance.GoToNextLevel();
     }
 }
