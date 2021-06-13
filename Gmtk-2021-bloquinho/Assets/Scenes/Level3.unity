@@ -1461,8 +1461,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: watch out for triangles!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a328ce86bfe4d70449c761c0facc3720, type: 2}
+  m_sharedMaterial: {fileID: -1587295063489509437, guid: a328ce86bfe4d70449c761c0facc3720, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
