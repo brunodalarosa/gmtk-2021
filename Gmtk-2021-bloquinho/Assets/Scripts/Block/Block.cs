@@ -20,22 +20,22 @@ namespace GMTK2021
         [SerializeField]
         protected Animator _animator;
         public Animator Animator => _animator;
-        
+
         protected Vector2 PositionFromPlayer { get; set; }
         protected PlayerBlock PlayerBlock { get; set; }
         public bool IsConnected { get; set; }
 
         private Transform Transform { get; set; }
-        
+
         private void Awake()
         {
             Transform = transform;
             IsConnected = false;
             tag = "Block";
-            
+
             DidAwake();
         }
-        
+
         public void DoAction()
         {
             Action();
@@ -45,13 +45,13 @@ namespace GMTK2021
         {
             AddNeighbour(newBlock, direction);
             newBlock.ConnectBlockFrom(this, direction, PlayerBlock);
-            AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.BlockConnect);
+            AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.BlockConnect);
         }
-        
+
         private void ConnectBlockFrom(Block parentBlock, Direction direction, PlayerBlock playerBlock)
         {
             PlayerBlock = playerBlock;
-            
+
             Transform.SetParent(parentBlock.Transform);
             Transform.localPosition = direction.AsVector3();
             Transform.rotation = PlayerBlock.Transform.rotation;
@@ -78,23 +78,23 @@ namespace GMTK2021
 
             Collider.isTrigger = false;
             Collider.usedByComposite = true;
-            
+
             IsConnected = true;
         }
 
         public void AddBlockClockwise(Block block)
         {
             var direction = Direction.Down;
-            
+
             // Ordem de adição dos blocos. Para alterar, só alterar a ordem da validação. Pode ser até aleatório.
-            
+
             if (!HasNeighbour(Direction.Up))
                 direction = Direction.Up;
             else if (!HasNeighbour(Direction.Right))
                 direction = Direction.Right;
             else if (!HasNeighbour(Direction.Left))
                 direction = Direction.Left;
-            
+
             if (direction != Direction.Down)
                 ConnectBlock(block, direction);
             else // Todas as direções estão ocupadas, vai para a próxima. Está priorizando left mas pode ser alterado
@@ -110,7 +110,7 @@ namespace GMTK2021
                 ConnectBlock(block, direction.x < 0 ? Direction.Left : Direction.Right);
             else //É uma conexão vertical
                 ConnectBlock(block, Direction.Up);
-            
+
             // ConnectBlock(block, direction.y < 0 ? Direction.Down : Direction.Up); substituir aqui se for voltar a ter conexão por baixo
         }
 
@@ -123,7 +123,7 @@ namespace GMTK2021
         {
             return PlayerBlock.GetBlock(PositionFromPlayer + direction.AsVector2());
         }
-        
+
         private Block GetNeighbourSafe(Direction direction)
         {
             return PlayerBlock.GetBlockSafe(PositionFromPlayer + direction.AsVector2());
@@ -176,7 +176,7 @@ namespace GMTK2021
         {
             return AsVector3(direction);
         }
-        
+
         public static Vector3 AsVector3(this Direction direction)
         {
             return direction switch
