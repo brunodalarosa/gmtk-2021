@@ -13,7 +13,7 @@ namespace GMTK2021
         [SerializeField]
         private Rigidbody2D _rigidbody2D;
         public Rigidbody2D Rigidbody2D => _rigidbody2D;
-    
+
         [SerializeField]
         private Animator _animator;
         public Animator Animator => _animator;
@@ -56,8 +56,8 @@ namespace GMTK2021
         private void Update()
         {
             HandleMovement();
-            
-            if (Input.GetKey(KeyCode.Space)) 
+
+            if (Input.GetKeyDown(KeyCode.Space))
                 ApplyAction();
         }
 
