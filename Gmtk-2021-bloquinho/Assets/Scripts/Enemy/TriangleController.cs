@@ -32,18 +32,26 @@ public class TriangleController : BaseEnemy
     private void FixedUpdate()
     {
         var direction = GoToRight ? 1 : -1;
+
+        if (GoToRight)
+        {
+            Animator.SetFloat("MoveX", 1);
+        }
+        else
+        {
+            Animator.SetFloat("MoveX", -1);
+        }
         transform.DOMoveX(transform.position.x + (Speed * 0.01f * direction), 0);
 
         if (transform.position.x > RightPoint.position.x)
         {
             _goToRight = false;
-            Animator.SetFloat("MoveX", -1);
+            
         }
 
         if (transform.position.x < LeftPoint.position.x)
         {
             _goToRight = true;
-            Animator.SetFloat("MoveX", 1);
         }
     }
 }
