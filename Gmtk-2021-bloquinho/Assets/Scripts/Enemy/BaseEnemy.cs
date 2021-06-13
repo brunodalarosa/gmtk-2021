@@ -13,6 +13,6 @@ public class BaseEnemy : MonoBehaviour
 
     public void Die()
     {
-
+        Destroy(gameObject);
     }
 }

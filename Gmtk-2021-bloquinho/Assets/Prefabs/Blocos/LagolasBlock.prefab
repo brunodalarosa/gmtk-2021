@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 8220634030051236339}
+  _animator: {fileID: -3458198636152374026}
   _bulletPrefab: {fileID: 9074908899807829313, guid: 1be97347d425cff4884b5af32ff3c006, type: 3}
 --- !u!95 &-3458198636152374026
 Animator:
