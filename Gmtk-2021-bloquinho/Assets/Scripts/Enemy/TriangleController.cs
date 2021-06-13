@@ -21,6 +21,10 @@ public class TriangleController : BaseEnemy
     private float _speed = 1.5f;
     private float Speed => _speed;
 
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
+    public SpriteRenderer SpriteRenderer => _spriteRenderer;
+
     private void FixedUpdate()
     {
         var direction = GoToRight ? 1 : -1;
@@ -30,5 +34,7 @@ public class TriangleController : BaseEnemy
             _goToRight = false;
         if (transform.position.x < LeftPoint.position.x)
             _goToRight = true;
+
+        SpriteRenderer.flipX = GoToRight;
     }
 }

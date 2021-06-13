@@ -24,9 +24,18 @@ namespace GMTK2021
         public AudioClip _enemyPoofSfx;
         public AudioClip _levelCompleteSfx;
         public AudioClip _playFirstLevelSfx;
+        
+        public static AudioManager Instance { get; private set; }
 
         private void Awake()
         {
+            DontDestroyOnLoad(this);
+
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(this);
+            
             MainMusicTrack = gameObject.AddComponent<AudioSource>();
             MainMusicTrack.loop = true;
             MainMusicTrack.volume = 0.7f;

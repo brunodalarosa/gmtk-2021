@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GMTK2021;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,6 +36,8 @@ public class LevelManager : MonoBehaviour
 
         CurrentIndex++;
         SceneManager.LoadScene(Scenes[CurrentIndex].name);
+        
+        AudioManager.Instance.PlayLevelMusic();
     }
 
     public void ResetCurrentLevel()
