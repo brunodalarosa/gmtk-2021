@@ -214,6 +214,7 @@ MonoBehaviour:
   _leftPoint: {fileID: 6738873331142057774}
   _rightPoint: {fileID: 5661838103482150674}
   _speed: 2
+  _spriteRenderer: {fileID: 6686109908481868812}
 --- !u!60 &6152607423728350494
 PolygonCollider2D:
   m_ObjectHideFlags: 0
