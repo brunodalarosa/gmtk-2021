@@ -31,12 +31,18 @@ public class LevelManager : MonoBehaviour
 
     public void GoToNextLevel()
     {
+        if (CurrentIndex == 8)
+        {
+            SceneManager.LoadScene("EndGame");
+            return;
+        }
+
         if (CurrentIndex >= Scenes.Length - 1)
             throw new InvalidOperationException("Não tem mais fase mas mesmo assim algum otário tá tentando o impossível");
 
         CurrentIndex++;
         HeadsUpDisplay.Instance.Reset();
-        SceneManager.LoadScene(Scenes[CurrentIndex].name);
+        SceneManager.LoadScene($"Level{CurrentIndex}");
         
         AudioManager.Instance.PlayLevelMusic();
     }
