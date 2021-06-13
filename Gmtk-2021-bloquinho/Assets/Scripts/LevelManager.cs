@@ -40,9 +40,9 @@ public class LevelManager : MonoBehaviour
         if (CurrentIndex >= Scenes.Length - 1)
             throw new InvalidOperationException("Não tem mais fase mas mesmo assim algum otário tá tentando o impossível");
 
-        CurrentIndex++;
-        HeadsUpDisplay.Instance.Reset();
         SceneManager.LoadScene($"Level{CurrentIndex}");
+        HeadsUpDisplay.Instance.Reset();
+        CurrentIndex++;
 
         AudioManager.Instance.PlayLevelMusic();
     }
