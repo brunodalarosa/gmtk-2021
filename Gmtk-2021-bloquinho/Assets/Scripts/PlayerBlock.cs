@@ -119,6 +119,8 @@ namespace GMTK2021
         private void ApplyJumpAction()
         {
             var qtdJumps = PlayerBlock.BlockGrid.Values.Count(b => b is JumpBlock);
+            if (qtdJumps == 0)
+                return;
             var force = 0f;
             var initialForce = (PlayerBlock.BlockGrid.Values.FirstOrDefault(b => b is JumpBlock) as JumpBlock).JumpForce;
             for (int i = 0; i < qtdJumps; i++)
