@@ -79,6 +79,11 @@ public class HeadsUpDisplay : MonoBehaviour
 
     private void Start()
     {
+        Reset();
+    }
+
+    public void Reset()
+    {
         Holder.gameObject.SetActive(false);
         JumpUI.gameObject.SetActive(false);
         DashUI.gameObject.SetActive(false);
@@ -136,11 +141,6 @@ public class HeadsUpDisplay : MonoBehaviour
     }
 
     public void UpdateLagolas(bool show, int qtd = 1)
-    {
-
-    }
-
-    public void UpdateShooter(bool show, int qtd = 1)
     {
         if (!show)
         {

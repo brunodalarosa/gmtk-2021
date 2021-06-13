@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour
             throw new InvalidOperationException("Não tem mais fase mas mesmo assim algum otário tá tentando o impossível");
 
         CurrentIndex++;
+        HeadsUpDisplay.Instance.Reset();
         SceneManager.LoadScene(Scenes[CurrentIndex].name);
         
         AudioManager.Instance.PlayLevelMusic();
