@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8d01fdcbc094d6cb40e3bef575ac3a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainMenuMusic: {fileID: 0}
+  _mainMenuMusic: {fileID: 8300000, guid: 660b67325e888224bb7a5b00f8290dd2, type: 3}
   _backgroundMusic: {fileID: 8300000, guid: b74d15eab273d0b4082c9d5ea7e40aba, type: 3}
   _blockConnectSfx: {fileID: 8300000, guid: 2b4bbc7315e331f4099f73f772777c62, type: 3}
   _shootSfx: {fileID: 8300000, guid: 0d978efc6295f6f4a8b1cc1494c48f1a, type: 3}
