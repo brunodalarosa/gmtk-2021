@@ -22,6 +22,10 @@ public class TriangleController : BaseEnemy
     private float Speed => _speed;
 
     [SerializeField]
+    private Animator _animator;
+    public Animator Animator => _animator;
+
+    [SerializeField]
     private SpriteRenderer _spriteRenderer;
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
@@ -31,10 +35,15 @@ public class TriangleController : BaseEnemy
         transform.DOMoveX(transform.position.x + (Speed * 0.01f * direction), 0);
 
         if (transform.position.x > RightPoint.position.x)
+        {
             _goToRight = false;
-        if (transform.position.x < LeftPoint.position.x)
-            _goToRight = true;
+            Animator.SetFloat("MoveX", -1);
+        }
 
-        SpriteRenderer.flipX = GoToRight;
+        if (transform.position.x < LeftPoint.position.x)
+        {
+            _goToRight = true;
+            Animator.SetFloat("MoveX", 1);
+        }
     }
 }
