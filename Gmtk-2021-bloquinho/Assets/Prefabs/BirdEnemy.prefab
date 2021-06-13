@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3971505037763319869}
   - component: {fileID: 3971505037763319856}
   - component: {fileID: 3971505037763319859}
+  - component: {fileID: 1037820750285146718}
   m_Layer: 0
   m_Name: Bird
   m_TagString: Enemy
@@ -106,7 +107,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 94b315fa513d1c94aa47e32b50e772f3, type: 3}
+  m_Sprite: {fileID: -9181191166312026749, guid: d9a9a67f22257e34b82894d8f061489a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -134,7 +135,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.6, y: 1.6}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1.6, y: 1.6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -142,14 +143,16 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.35, y: 0.35}
-      - {x: -0.8, y: 0.1}
-      - {x: -0.8, y: -0.05}
-      - {x: -0.7, y: -0.25}
-      - {x: -0.05, y: -0.8}
-      - {x: 0.8, y: -0.8}
-      - {x: 0.8, y: 0.55}
-      - {x: 0.45000002, y: 0.5}
+    - - {x: -0.04365909, y: 0.44973883}
+      - {x: -0.24742433, y: 0.03969407}
+      - {x: -0.36542335, y: -0.2918314}
+      - {x: -0.33692664, y: -0.27085036}
+      - {x: -0.33666542, y: -0.32836628}
+      - {x: -0.21056661, y: -0.3620246}
+      - {x: -0.15124467, y: -0.3869049}
+      - {x: -0.053784847, y: -0.39432192}
+      - {x: 0.00921309, y: -0.4188921}
+      - {x: 0.27189478, y: -0.35490465}
 --- !u!114 &3971505037763319859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +169,27 @@ MonoBehaviour:
   _leftPoint: {fileID: 3795269181351054312}
   _rightPoint: {fileID: 2863211156593097684}
   _speed: 5
+  _animator: {fileID: 1037820750285146718}
   _spriteRenderer: {fileID: 3971505037763319869}
+--- !u!95 &1037820750285146718
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971505037763319868}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 713572ec5810f6645aa25b18d292ef77, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4761154878369519700
 GameObject:
   m_ObjectHideFlags: 0
