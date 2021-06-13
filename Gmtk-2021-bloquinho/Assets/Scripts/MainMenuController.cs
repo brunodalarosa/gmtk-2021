@@ -14,6 +14,7 @@ public class MainMenuController : MonoBehaviour
     private void Awake()
     {
         PlayButton.onClick.AddListener(GoToFirstLevel);
+        AudioManager.Instance.PlayMainMenuMusic();
     }
 
     public void GoToFirstLevel()
