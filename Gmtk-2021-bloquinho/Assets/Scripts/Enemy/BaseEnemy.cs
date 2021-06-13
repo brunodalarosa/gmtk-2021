@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GMTK2021;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -13,6 +14,7 @@ public class BaseEnemy : MonoBehaviour
 
     public void Die()
     {
+        AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.EnemyPoof);
         Destroy(gameObject);
     }
 }

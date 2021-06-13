@@ -13,5 +13,6 @@ public class LagolasBlock : Block
     {
         var bullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity, transform);
         bullet.Init(PlayerBlock.FacingRight);
+        AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.Shoot);
     }
 }

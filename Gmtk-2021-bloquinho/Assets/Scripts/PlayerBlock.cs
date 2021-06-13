@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace GMTK2021
     public class PlayerBlock : Block
     {
         private const int BlockAddMode = 1; // 0 para clockwise, 1 para direção do bloco que encostou
+        private const float WalkSfxSecondsInterval = 0.4f;
 
         [SerializeField]
         private Rigidbody2D _rigidbody2D;
@@ -37,6 +39,8 @@ namespace GMTK2021
         private float Smoothness => 0.05f;
         public bool Grounded { get; private set; }
         public bool FacingRight { get; private set; }
+        
+        private bool PlayingWalkSound { get; set; }
 
         protected override void DidAwake()
         {
@@ -44,6 +48,7 @@ namespace GMTK2021
             PositionFromPlayer = Vector2.zero;
             PlayerBlock = this;
             IsConnected = true;
+            PlayingWalkSound = false;
 
             tag = "Player";
             FacingRight = true;
@@ -67,6 +72,19 @@ namespace GMTK2021
             var velocity = Rigidbody2D.velocity;
             Vector3 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * 10f, velocity.y);
             Rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, Smoothness);
+
+            if (Rigidbody2D.velocity.x != 0 && !PlayingWalkSound)
+            {
+                StartCoroutine(PlayWalkSfx());
+            }
+        }
+
+        private IEnumerator PlayWalkSfx()
+        {
+            PlayingWalkSound = true;
+            yield return new WaitForSeconds(WalkSfxSecondsInterval);
+            AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.WalkStep);
+            PlayingWalkSound = false;
         }
 
         private void HandleAnimation()

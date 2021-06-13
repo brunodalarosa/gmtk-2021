@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GMTK2021;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class MainMenuController : MonoBehaviour
 
     public void GoToFirstLevel()
     {
+        AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.PlayFirstLevel);
         LevelManager.Instance.GoToNextLevel();
     }
 }

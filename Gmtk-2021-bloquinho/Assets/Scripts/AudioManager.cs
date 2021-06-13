@@ -41,7 +41,7 @@ namespace GMTK2021
             
             MainMusicTrack = gameObject.AddComponent<AudioSource>();
             MainMusicTrack.loop = true;
-            MainMusicTrack.volume = 0.7f;
+            MainMusicTrack.volume = 0.5f;
 
             SfxTrack = gameObject.AddComponent<AudioSource>();
             SfxTrack.loop = false;
