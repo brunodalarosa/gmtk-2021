@@ -44,11 +44,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainMenuMusic: {fileID: 0}
-  _backgroundMusic: {fileID: 8300000, guid: 9409d6c4520870c40b26da21a4531a58, type: 3}
-  _blockConnectSfx: {fileID: 0}
-  _walkStepSfx: {fileID: 0}
-  _shootSfx: {fileID: 0}
-  _jumpSfx: {fileID: 0}
-  _enemyPoofSfx: {fileID: 0}
-  _levelCompleteSfx: {fileID: 0}
-  _playFirstLevelSfx: {fileID: 0}
+  _backgroundMusic: {fileID: 8300000, guid: b74d15eab273d0b4082c9d5ea7e40aba, type: 3}
+  _blockConnectSfx: {fileID: 8300000, guid: 2b4bbc7315e331f4099f73f772777c62, type: 3}
+  _shootSfx: {fileID: 8300000, guid: 0d978efc6295f6f4a8b1cc1494c48f1a, type: 3}
+  _jumpSfx: {fileID: 8300000, guid: 233b2907c1f2d6a4b8c5057ab8600c5d, type: 3}
+  _enemyPoofSfx: {fileID: 8300000, guid: 6314cc7127efe3743a80cc6118228b68, type: 3}
+  _levelCompleteSfx: {fileID: 8300000, guid: e062444175da19f4394d1a78bf30b50d, type: 3}
+  _playFirstLevelSfx: {fileID: 8300000, guid: 199e00dffa4e5d44fbaa89999f39d0b9, type: 3}
+  _walkStepSfxs:
+  - {fileID: 8300000, guid: 5ec957577553e5141aa65da8767dbc18, type: 3}
+  - {fileID: 8300000, guid: 2ea8d94917c99e24ba2b0e8bbffc04c0, type: 3}
+  - {fileID: 8300000, guid: 8a9c4e3ee94d9194abed33dfc343567f, type: 3}

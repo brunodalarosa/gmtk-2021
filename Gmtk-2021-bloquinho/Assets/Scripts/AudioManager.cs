@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = System.Random;
 
 namespace GMTK2021
 {
@@ -18,12 +19,14 @@ namespace GMTK2021
         public AudioClip _backgroundMusic;
         
         public AudioClip _blockConnectSfx;
-        public AudioClip _walkStepSfx;
         public AudioClip _shootSfx;
         public AudioClip _jumpSfx;
         public AudioClip _enemyPoofSfx;
         public AudioClip _levelCompleteSfx;
         public AudioClip _playFirstLevelSfx;
+        
+        public AudioClip[] _walkStepSfxs;
+
         
         public static AudioManager Instance { get; private set; }
 
@@ -79,7 +82,7 @@ namespace GMTK2021
                 case SoundEffects.BlockConnect:
                     return _blockConnectSfx;
                 case SoundEffects.WalkStep:
-                    return _walkStepSfx;
+                    return GetRandomWalkSfx();
                 case SoundEffects.Shoot:
                     return _shootSfx;
                 case SoundEffects.Jump:
@@ -93,6 +96,12 @@ namespace GMTK2021
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sfx), sfx, null);
             }
+        }
+
+        private AudioClip GetRandomWalkSfx()
+        {
+            var random = new Random();
+            return _walkStepSfxs[random.Next(0, _walkStepSfxs.Length)];
         }
 
         private void PlaySfx(AudioClip sfx)
