@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 
@@ -136,6 +137,22 @@ namespace GMTK2021
         public void AddBlock(Block block, Vector2 position)
         {
             BlockGrid.Add(position, block);
+
+            switch (block)
+            {
+                case DashBlock dashBlock:
+                    var qtdDashes = BlockGrid.Values.Count(b => b is DashBlock);
+                    HeadsUpDisplay.Instance.UpdateDash(true, qtdDashes);
+                    break;
+                
+                case JumpBlock jumpBlock:
+                    var qtdJumps = BlockGrid.Values.Count(b => b is JumpBlock);
+                    HeadsUpDisplay.Instance.UpdateJump(true, qtdJumps);
+                    break;
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(block));
+            }
         }
 
         public Block GetBlock(Vector2 position)
