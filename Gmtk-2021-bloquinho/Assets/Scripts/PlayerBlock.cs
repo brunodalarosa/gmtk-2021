@@ -81,8 +81,6 @@ namespace GMTK2021
                 SpriteRenderer.flipX = false;
             else if (Rigidbody2D.velocity.x < -0.3)
                 SpriteRenderer.flipX = true;
-
-
         }
 
         private void ApplyAction()

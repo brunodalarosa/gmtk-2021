@@ -285,11 +285,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3754862370683392606, guid: 957063765b82c394f8959c6c5fd6f051, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.819729
+      value: 16.819729
       objectReference: {fileID: 0}
     - target: {fileID: 3754862370683392606, guid: 957063765b82c394f8959c6c5fd6f051, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.65837
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3754862370683392606, guid: 957063765b82c394f8959c6c5fd6f051, type: 3}
       propertyPath: m_LocalPosition.z
@@ -442,11 +442,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1888448643389643388, guid: 7ef5a09d28e818f43ae62d9edb0cb195, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.200272
+      value: -18.450272
       objectReference: {fileID: 0}
     - target: {fileID: 1888448643389643388, guid: 7ef5a09d28e818f43ae62d9edb0cb195, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.57837
+      value: -4.82837
       objectReference: {fileID: 0}
     - target: {fileID: 1888448643389643388, guid: 7ef5a09d28e818f43ae62d9edb0cb195, type: 3}
       propertyPath: m_LocalPosition.z
@@ -548,11 +548,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3754862370683392606, guid: 957063765b82c394f8959c6c5fd6f051, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.180271
+      value: -15.180271
       objectReference: {fileID: 0}
     - target: {fileID: 3754862370683392606, guid: 957063765b82c394f8959c6c5fd6f051, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.65837
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 3754862370683392606, guid: 957063765b82c394f8959c6c5fd6f051, type: 3}
       propertyPath: m_LocalPosition.z
@@ -864,7 +864,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3511291479090669077, guid: d35ec9f1866faa843aa07d5998d8f23b, type: 3}
       propertyPath: RightLimit
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3511291479090669077, guid: d35ec9f1866faa843aa07d5998d8f23b, type: 3}
       propertyPath: UpperLimit

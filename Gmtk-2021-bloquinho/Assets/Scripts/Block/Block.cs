@@ -51,6 +51,23 @@ namespace GMTK2021
             Transform.localPosition = direction.AsVector3();
             Transform.rotation = PlayerBlock.Transform.rotation;
 
+            switch (direction)
+            {
+                case Direction.Left:
+                    Transform.localPosition = new Vector3(Transform.localPosition.x + 0.2f, Transform.localPosition.y);
+                    break;
+                case Direction.Up:
+                    Transform.localPosition = new Vector3(Transform.localPosition.x, Transform.localPosition.y - 0.2f);
+                    break;
+                case Direction.Right:
+                    Transform.localPosition = new Vector3(Transform.localPosition.x - 0.2f, Transform.localPosition.y);
+                    break;
+                case Direction.Down:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+            }
+
             PositionFromPlayer = parentBlock.PositionFromPlayer + direction.AsVector2();
             gameObject.name = $"{direction.ToString()}, x:{PositionFromPlayer.x}, y:{PositionFromPlayer.y}";
 
@@ -87,7 +104,9 @@ namespace GMTK2021
             if (math.abs(direction.x) > math.abs(direction.y)) //É uma conexão horizontal
                 ConnectBlock(block, direction.x < 0 ? Direction.Left : Direction.Right);
             else //É uma conexão vertical
-                ConnectBlock(block, direction.y < 0 ? Direction.Down : Direction.Up);
+                ConnectBlock(block, Direction.Up);
+            
+            // ConnectBlock(block, direction.y < 0 ? Direction.Down : Direction.Up); substituir aqui se for voltar a ter conexão por baixo
         }
 
         private void AddNeighbour(Block block, Direction direction)
