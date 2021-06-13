@@ -13,6 +13,6 @@ public class DashBlock : Block
     {
         var direction = PlayerBlock.FacingRight ? 1 : -1;
 
-        PlayerBlock.Rigidbody2D.AddForce(new Vector2(direction, 0) * DashForce);
+        PlayerBlock.Rigidbody2D.AddForce(new Vector2(direction, 0) * DashForce, ForceMode2D.Impulse);
     }
 }
