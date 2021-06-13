@@ -14,7 +14,7 @@ public class BaseEnemy : MonoBehaviour
 
     public void Die()
     {
-        AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.EnemyPoof);
+        AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.EnemyPoof);
         Destroy(gameObject);
     }
 }

@@ -46,7 +46,6 @@ public class TriangleController : BaseEnemy
         if (transform.position.x > RightPoint.position.x)
         {
             _goToRight = false;
-            
         }
 
         if (transform.position.x < LeftPoint.position.x)
