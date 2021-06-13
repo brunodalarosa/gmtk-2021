@@ -10,4 +10,9 @@ public class BaseEnemy : MonoBehaviour
         if (col.tag == "Player")
             LevelManager.Instance.ResetCurrentLevel();
     }
+
+    public void Die()
+    {
+
+    }
 }
