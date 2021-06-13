@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3400288565706928203}
   - component: {fileID: 3400288565706928212}
   - component: {fileID: 3932729713239047600}
-  - component: {fileID: -586999441834787982}
+  - component: {fileID: -4118852512405544797}
   m_Layer: 0
-  m_Name: DashBlock
+  m_Name: KasperskyBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 3400288565706928212}
   _dashForce: 120
---- !u!95 &-586999441834787982
+--- !u!95 &-4118852512405544797
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -136,7 +136,7 @@ Animator:
   m_GameObject: {fileID: 3400288565706928215}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b6077cf7757ed974b97dee13f956ff7f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 36f64911598690145a5d6c7ad545fadd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

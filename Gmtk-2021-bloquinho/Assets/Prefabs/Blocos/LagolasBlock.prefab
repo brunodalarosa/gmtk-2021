@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7599160289015651398}
   - component: {fileID: 8220634030051236339}
   - component: {fileID: 3540056685397302978}
+  - component: {fileID: -3458198636152374026}
   m_Layer: 0
   m_Name: LagolasBlock
   m_TagString: Untagged
@@ -124,3 +125,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 8220634030051236339}
   _bulletPrefab: {fileID: 9074908899807829313, guid: 1be97347d425cff4884b5af32ff3c006, type: 3}
+--- !u!95 &-3458198636152374026
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3104952400718873566}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eea15e251084ef94d9843efa0949ca34, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
