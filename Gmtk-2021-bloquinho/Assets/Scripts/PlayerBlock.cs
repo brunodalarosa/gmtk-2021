@@ -13,7 +13,7 @@ namespace GMTK2021
         [SerializeField]
         private Rigidbody2D _rigidbody2D;
         public Rigidbody2D Rigidbody2D => _rigidbody2D;
-        
+
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
@@ -72,12 +72,12 @@ namespace GMTK2021
         private void HandleAnimation()
         {
             Animator.SetFloat("MoveX", Rigidbody2D.velocity.x);
-            
+
             foreach (var block in BlockGrid.Values)
             {
                 block.Animator.SetFloat("MoveX", Rigidbody2D.velocity.x);
             }
-            
+
             if (Rigidbody2D.velocity.x > 0.3)
             {
                 SpriteRenderer.flipX = false;
