@@ -57,8 +57,16 @@ namespace GMTK2021
         private void Update()
         {
             HandleMovement();
+            
+            
             if (Input.GetKeyDown(KeyCode.Space))
-                ApplyAction();
+                ApplyJumpAction();
+            
+            if (Input.GetKeyDown(KeyCode.J))
+                ApplyDashAction();
+            
+            if (Input.GetKeyDown(KeyCode.K))
+                ApplyShootAction();
         }
 
         private void FixedUpdate()
@@ -108,9 +116,25 @@ namespace GMTK2021
             }
         }
 
-        private void ApplyAction()
+        private void ApplyJumpAction()
         {
-            foreach (var block in BlockGrid.Values)
+            foreach (var block in BlockGrid.Values.Where(block => block is JumpBlock))
+            {
+                block.DoAction();
+            }
+        }
+        
+        private void ApplyDashAction()
+        {
+            foreach (var block in BlockGrid.Values.Where(block => block is DashBlock))
+            {
+                block.DoAction();
+            }
+        }
+        
+        private void ApplyShootAction()
+        {
+            foreach (var block in BlockGrid.Values.Where(block => block is LagolasBlock))
             {
                 block.DoAction();
             }
