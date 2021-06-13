@@ -19,6 +19,8 @@ public class LevelManager : MonoBehaviour
 
         if (Instance == null)
             Instance = this;
+        else
+            Destroy(this);
     }
 
     private void Start()
@@ -38,6 +40,6 @@ public class LevelManager : MonoBehaviour
     public void ResetCurrentLevel()
     {
         //TODO: animação de transição
-        SceneManager.LoadScene(Scenes[CurrentIndex].name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class TriangleController : MonoBehaviour
+public class TriangleController : BaseEnemy
 {
     [SerializeField]
     private bool _goToRight;
@@ -30,11 +30,5 @@ public class TriangleController : MonoBehaviour
             _goToRight = false;
         if (transform.position.x < LeftPoint.position.x)
             _goToRight = true;
-    }
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag == "Player")
-            LevelManager.Instance.ResetCurrentLevel();
     }
 }
