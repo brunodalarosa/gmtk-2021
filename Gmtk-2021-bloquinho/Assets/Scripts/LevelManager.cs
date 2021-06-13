@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour
 
     public void GoToNextLevel()
     {
-        if (CurrentIndex == 8)
+        if (CurrentIndex == 9)
         {
             SceneManager.LoadScene("EndGame");
             return;
@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
         CurrentIndex++;
         HeadsUpDisplay.Instance.Reset();
         SceneManager.LoadScene($"Level{CurrentIndex}");
-        
+
         AudioManager.Instance.PlayLevelMusic();
     }
 
