@@ -2,7 +2,7 @@
 
 namespace Block
 {
-    public class JumpBlock : Block
+    public class JumpBlock : BaseBlock
     {
         [SerializeField]
         private float _jumpForce = 15f;

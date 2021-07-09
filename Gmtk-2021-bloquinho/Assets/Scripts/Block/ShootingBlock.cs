@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Block
 {
-    public class ShootingBlock : Block
+    public class ShootingBlock : BaseBlock
     {
         [SerializeField]
         private BulletController _bulletPrefab = null;

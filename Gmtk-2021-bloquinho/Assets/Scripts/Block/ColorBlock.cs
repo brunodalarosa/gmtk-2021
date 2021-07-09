@@ -2,7 +2,7 @@
 
 namespace Block
 {
-    public class ColorBlock : Block
+    public class ColorBlock : BaseBlock
     {
         protected override void Action()
         {

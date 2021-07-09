@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Block
 {
-    public class DashBlock : Block
+    public class DashBlock : BaseBlock
     {
         [SerializeField]
         private float _dashForce = 2.5f;

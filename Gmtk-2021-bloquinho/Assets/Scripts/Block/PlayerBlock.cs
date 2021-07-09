@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Block
 {
-    public class PlayerBlock : Block
+    public class PlayerBlock : BaseBlock
     {
         private const int BlockAddMode = 1; // 0 para clockwise, 1 para direção do bloco que encostou
         private const float WalkSfxSecondsInterval = 0.4f;
@@ -25,18 +25,18 @@ namespace Block
 
         [Header("Feet")]
         [SerializeField]
-        private Transform _feetPos = null;
+        private Transform _feetPos;
         private Transform FeetPos => _feetPos;
 
         [SerializeField]
-        private float _feetRadius = 0;
+        private float _feetRadius;
         private float FeetRadius => _feetRadius;
 
         [SerializeField]
         private LayerMask _groundLayer;
         private LayerMask GroundLayer => _groundLayer;
 
-        private Dictionary<Vector2, global::Block.Block> BlockGrid { get; set; }
+        private Dictionary<Vector2, BaseBlock> BlockGrid { get; set; }
 
         private Vector3 _velocity = Vector3.zero;
         private float Smoothness => 0.05f;
@@ -47,7 +47,7 @@ namespace Block
 
         protected override void DidAwake()
         {
-            BlockGrid = new Dictionary<Vector2, global::Block.Block>();
+            BlockGrid = new Dictionary<Vector2, BaseBlock>();
             PositionFromPlayer = Vector2.zero;
             PlayerBlock = this;
             IsConnected = true;
@@ -162,7 +162,7 @@ namespace Block
             if (!go.CompareTag("Block"))
                 return;
 
-            var block = go.GetComponent<global::Block.Block>();
+            var block = go.GetComponent<BaseBlock>();
 
             if (block.IsConnected)
                 return;
@@ -173,14 +173,13 @@ namespace Block
 
             if (BlockAddMode == 0)
                 realCollidedBlock.AddBlockClockwise(block);
-            else
-                realCollidedBlock.AddBlockFromCollision(block, go);
+            realCollidedBlock.AddBlockFromCollision(block, go);
         }
 
         //Encontra o bloco onde aconteceu de fato a colisão calculando pela distancia do bloco colidido e os blocos já associados ao Player
-        private global::Block.Block GetNearestBlockFromCollision(GameObject collidedBlock)
+        private BaseBlock GetNearestBlockFromCollision(GameObject collidedBlock)
         {
-            global::Block.Block nearest = this;
+            BaseBlock nearest = this;
             float minDistance = (collidedBlock.transform.position - transform.position).magnitude;
 
             foreach (var block in BlockGrid.Values)
@@ -197,43 +196,32 @@ namespace Block
             return nearest;
         }
 
-        public void AddBlock(global::Block.Block block, Vector2 position)
+        public void AddBlock(BaseBlock baseBlock, Vector2 position)
         {
-            BlockGrid.Add(position, block);
+            BlockGrid.Add(position, baseBlock);
 
-            switch (block)
+            int quantity = baseBlock switch
             {
-                case DashBlock dashBlock:
-                    var qtdDashes = BlockGrid.Values.Count(b => b is DashBlock);
-                    HeadsUpDisplay.Instance?.UpdateDash(true, qtdDashes);
-                    break;
+                DashBlock _ => BlockGrid.Values.Count(b => b is DashBlock),
+                JumpBlock _ => BlockGrid.Values.Count(b => b is JumpBlock),
+                ShootingBlock _ => BlockGrid.Values.Count(b => b is ShootingBlock),
+                _ => throw new ArgumentOutOfRangeException(nameof(baseBlock))
+            };
 
-                case JumpBlock jumpBlock:
-                    var qtdJumps = BlockGrid.Values.Count(b => b is JumpBlock);
-                    HeadsUpDisplay.Instance?.UpdateJump(true, qtdJumps);
-                    break;
-
-                case ShootingBlock lagolasBlock:
-                    var qtdLagolas = BlockGrid.Values.Count(b => b is JumpBlock);
-                    HeadsUpDisplay.Instance?.UpdateLagolas(true, qtdLagolas);
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(block));
-            }
+            HeadsUpDisplay.Instance.UpdateBlockStatus(baseBlock, quantity);
         }
 
-        public global::Block.Block GetBlock(Vector2 position)
+        public BaseBlock GetBlock(Vector2 position)
         {
             return BlockGrid[position];
         }
 
-        public global::Block.Block GetBlockSafe(Vector2 position)
+        public BaseBlock GetBlockSafe(Vector2 position)
         {
             return BlockGrid.ContainsKey(position) ? GetBlock(position) : null;
         }
 
-        public global::Block.Block GetNeighbourBlock(Vector2 position, Direction direction)
+        public BaseBlock GetNeighbourBlock(Vector2 position, Direction direction)
         {
             return GetBlock(position + direction.AsVector2());
         }

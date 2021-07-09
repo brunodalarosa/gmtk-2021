@@ -1,3 +1,4 @@
+using Block;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,8 +65,6 @@ namespace Level
 
         public static HeadsUpDisplay Instance { get; private set; }
 
-        private bool ShowingHud { get; set; }
-
         private void Awake()
         {
             DontDestroyOnLoad(this);
@@ -83,85 +82,63 @@ namespace Level
 
         public void Reset()
         {
-            Holder.gameObject.SetActive(false);
-            JumpUI.gameObject.SetActive(false);
-            DashUI.gameObject.SetActive(false);
-            ShooterUI.gameObject.SetActive(false);
-
-            ShowingHud = false;
+            UpdateJump(0);
+            UpdateDash(0);
+            UpdateShooter(0);
         }
 
-        public void UpdateJump(bool show, int qtd = 1)
+        public void UpdateBlockStatus(BaseBlock baseBlock, int quantity)
         {
-            if (!show)
+            switch (baseBlock)
             {
-                JumpUI.gameObject.SetActive(false);
-                return;
+                case DashBlock _:
+                    UpdateDash(quantity);
+                    break;
+                case JumpBlock _:
+                    UpdateJump(quantity);
+                    break;
+                case ShootingBlock _:
+                    UpdateShooter(quantity);
+                    break;
             }
+        }
 
+        private void UpdateJump(int qtd)
+        {
             JumpQtd.text = "x" + qtd;
 
-            float alpha = qtd < 1 ? 0.3f : 1.0f;
+            var alpha = GetAlphaForBlockUI(qtd);
 
             JumpIcon.color = new Color(JumpIcon.color.r, JumpIcon.color.g, JumpIcon.color.b, alpha);
             JumpKey.color = new Color(JumpKey.color.r, JumpKey.color.g, JumpKey.color.b, alpha);
 
             JumpUI.gameObject.SetActive(true);
-
-            if (!ShowingHud)
-            {
-                Holder.gameObject.SetActive(true);
-                ShowingHud = true;
-            }
         }
 
-        public void UpdateDash(bool show, int qtd = 1)
+        private void UpdateDash(int qtd)
         {
-            if (!show)
-            {
-                DashUI.gameObject.SetActive(false);
-                return;
-            }
-
             DashQtd.text = "x" + qtd;
 
-            float alpha = qtd < 1 ? 0.3f : 1.0f;
+            var alpha = GetAlphaForBlockUI(qtd);
 
             DashIcon.color = new Color(DashIcon.color.r, DashIcon.color.g, DashIcon.color.b, alpha);
             DashKey.color = new Color(DashKey.color.r, DashKey.color.g, DashKey.color.b, alpha);
 
             DashUI.gameObject.SetActive(true);
-
-            if (!ShowingHud)
-            {
-                Holder.gameObject.SetActive(true);
-                ShowingHud = true;
-            }
         }
 
-        public void UpdateLagolas(bool show, int qtd = 1)
+        private void UpdateShooter(int qtd)
         {
-            if (!show)
-            {
-                ShooterUI.gameObject.SetActive(false);
-                return;
-            }
-
             ShooterQtd.text = "x" + qtd;
 
-            float alpha = qtd < 1 ? 0.3f : 1.0f;
+            var alpha = GetAlphaForBlockUI(qtd);
 
             ShooterIcon.color = new Color(ShooterIcon.color.r, ShooterIcon.color.g, ShooterIcon.color.b, alpha);
             ShooterKey.color = new Color(ShooterKey.color.r, ShooterKey.color.g, ShooterKey.color.b, alpha);
 
             ShooterUI.gameObject.SetActive(true);
-
-            if (!ShowingHud)
-            {
-                Holder.gameObject.SetActive(true);
-                ShowingHud = true;
-            }
         }
 
+        private static float GetAlphaForBlockUI(int qtd) => qtd < 1 ? 0.3f : 1.0f;
     }
 }

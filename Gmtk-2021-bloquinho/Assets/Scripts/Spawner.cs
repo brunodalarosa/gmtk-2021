@@ -7,8 +7,8 @@ public class Spawner : MonoBehaviour
     private const int DestroyInterval = 4;
 
     [SerializeField]
-    private Block.Block _spawnee = null;
-    private Block.Block Spawnee => _spawnee;
+    private Block.BaseBlock _spawnee = null;
+    private Block.BaseBlock Spawnee => _spawnee;
 
     [SerializeField]
     private GameObject _spawnPoint = null;

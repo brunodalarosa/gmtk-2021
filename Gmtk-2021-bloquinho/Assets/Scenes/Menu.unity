@@ -565,7 +565,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3104952400718873566, guid: 6c755daf56d5d32448b374a4675049da, type: 3}
       propertyPath: m_Name
-      value: LagolasBlock
+      value: ShooterBlock
       objectReference: {fileID: 0}
     - target: {fileID: 8203936724154297234, guid: 6c755daf56d5d32448b374a4675049da, type: 3}
       propertyPath: m_RootOrder

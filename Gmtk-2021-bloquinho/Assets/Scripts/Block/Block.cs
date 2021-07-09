@@ -11,7 +11,7 @@ namespace Block
      * e todos os outros blocos seguem a posição do player (por serem direta ou indiretamente filhos dele).
      * Todos os blocos tem uma referência para bloco player.
      */
-    public abstract class Block : MonoBehaviour
+    public abstract class BaseBlock : MonoBehaviour
     {
 
         [SerializeField]
@@ -42,18 +42,18 @@ namespace Block
             Action();
         }
 
-        private void ConnectBlock(Block newBlock, Direction direction)
+        private void ConnectBlock(BaseBlock newBaseBlock, Direction direction)
         {
-            AddNeighbour(newBlock, direction);
-            newBlock.ConnectBlockFrom(this, direction, PlayerBlock);
+            AddNeighbour(newBaseBlock, direction);
+            newBaseBlock.ConnectBlockFrom(this, direction, PlayerBlock);
             AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.BlockConnect);
         }
 
-        private void ConnectBlockFrom(Block parentBlock, Direction direction, PlayerBlock playerBlock)
+        private void ConnectBlockFrom(BaseBlock parentBaseBlock, Direction direction, PlayerBlock playerBlock)
         {
             PlayerBlock = playerBlock;
 
-            Transform.SetParent(parentBlock.Transform);
+            Transform.SetParent(parentBaseBlock.Transform);
             Transform.localPosition = direction.AsVector3();
             Transform.rotation = PlayerBlock.Transform.rotation;
 
@@ -74,7 +74,7 @@ namespace Block
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
 
-            PositionFromPlayer = parentBlock.PositionFromPlayer + direction.AsVector2();
+            PositionFromPlayer = parentBaseBlock.PositionFromPlayer + direction.AsVector2();
             gameObject.name = $"{direction.ToString()}, x:{PositionFromPlayer.x}, y:{PositionFromPlayer.y}";
 
             Collider.isTrigger = false;
@@ -83,7 +83,7 @@ namespace Block
             IsConnected = true;
         }
 
-        public void AddBlockClockwise(Block block)
+        public void AddBlockClockwise(BaseBlock baseBlock)
         {
             var direction = Direction.Down;
 
@@ -97,35 +97,35 @@ namespace Block
                 direction = Direction.Left;
 
             if (direction != Direction.Down)
-                ConnectBlock(block, direction);
+                ConnectBlock(baseBlock, direction);
             else // Todas as direções estão ocupadas, vai para a próxima. Está priorizando left mas pode ser alterado
-                PlayerBlock.GetBlock(PositionFromPlayer + Direction.Left.AsVector2()).AddBlockClockwise(block);
+                PlayerBlock.GetBlock(PositionFromPlayer + Direction.Left.AsVector2()).AddBlockClockwise(baseBlock);
         }
 
-        public void AddBlockFromCollision(Block block, GameObject go)
+        public void AddBlockFromCollision(BaseBlock baseBlock, GameObject go)
         {
             var direction = go.transform.position - transform.position;
             // Debug.Log("[OnTriggerEnter2D] direction -> " + direction);
 
             if (math.abs(direction.x) > math.abs(direction.y)) //É uma conexão horizontal
-                ConnectBlock(block, direction.x < 0 ? Direction.Left : Direction.Right);
+                ConnectBlock(baseBlock, direction.x < 0 ? Direction.Left : Direction.Right);
             else //É uma conexão vertical
-                ConnectBlock(block, Direction.Up);
+                ConnectBlock(baseBlock, Direction.Up);
 
             // ConnectBlock(block, direction.y < 0 ? Direction.Down : Direction.Up); substituir aqui se for voltar a ter conexão por baixo
         }
 
-        private void AddNeighbour(Block block, Direction direction)
+        private void AddNeighbour(BaseBlock baseBlock, Direction direction)
         {
-            PlayerBlock.AddBlock(block, PositionFromPlayer + direction.AsVector2());
+            PlayerBlock.AddBlock(baseBlock, PositionFromPlayer + direction.AsVector2());
         }
 
-        private Block GetNeighbour(Direction direction)
+        private BaseBlock GetNeighbour(Direction direction)
         {
             return PlayerBlock.GetBlock(PositionFromPlayer + direction.AsVector2());
         }
 
-        private Block GetNeighbourSafe(Direction direction)
+        private BaseBlock GetNeighbourSafe(Direction direction)
         {
             return PlayerBlock.GetBlockSafe(PositionFromPlayer + direction.AsVector2());
         }
