@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9123322433337480149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1571638503413933801}
+  - component: {fileID: 5565682456928048317}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1571638503413933801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9123322433337480149}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5565682456928048317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9123322433337480149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d01fdcbc094d6cb40e3bef575ac3a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainMenuMusic: {fileID: 8300000, guid: 660b67325e888224bb7a5b00f8290dd2, type: 3}
+  _backgroundMusic: {fileID: 8300000, guid: b74d15eab273d0b4082c9d5ea7e40aba, type: 3}
+  _blockConnectSfx: {fileID: 8300000, guid: 2b4bbc7315e331f4099f73f772777c62, type: 3}
+  _shootSfx: {fileID: 8300000, guid: 0d978efc6295f6f4a8b1cc1494c48f1a, type: 3}
+  _jumpSfx: {fileID: 8300000, guid: 233b2907c1f2d6a4b8c5057ab8600c5d, type: 3}
+  _enemyPoofSfx: {fileID: 8300000, guid: 6314cc7127efe3743a80cc6118228b68, type: 3}
+  _levelCompleteSfx: {fileID: 8300000, guid: e062444175da19f4394d1a78bf30b50d, type: 3}
+  _playFirstLevelSfx: {fileID: 8300000, guid: 199e00dffa4e5d44fbaa89999f39d0b9, type: 3}
+  _walkStepSfxs:
+  - {fileID: 8300000, guid: 5ec957577553e5141aa65da8767dbc18, type: 3}
+  - {fileID: 8300000, guid: 2ea8d94917c99e24ba2b0e8bbffc04c0, type: 3}
+  - {fileID: 8300000, guid: 8a9c4e3ee94d9194abed33dfc343567f, type: 3}
