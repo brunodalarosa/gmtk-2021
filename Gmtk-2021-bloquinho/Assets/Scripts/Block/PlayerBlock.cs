@@ -57,31 +57,16 @@ namespace Block
             FacingRight = true;
         }
 
-        private void Update()
-        {
-            HandleMovement();
-
-
-            if (Input.GetKeyDown(KeyCode.Space))
-                ApplyJumpAction();
-
-            if (Input.GetKeyDown(KeyCode.J))
-                ApplyDashAction();
-
-            if (Input.GetKeyDown(KeyCode.K))
-                ApplyShootAction();
-        }
-
         private void FixedUpdate()
         {
             HandleAnimation();
             Grounded = Physics2D.OverlapCircle(FeetPos.position, FeetRadius, GroundLayer);
         }
 
-        private void HandleMovement()
+        public void HandleMovement(float horizontalInput)
         {
             var velocity = Rigidbody2D.velocity;
-            Vector3 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * 10f, velocity.y);
+            Vector3 targetVelocity = new Vector2(horizontalInput, velocity.y);
             Rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, Smoothness);
 
             if (Rigidbody2D.velocity.x != 0 && !PlayingWalkSound)
@@ -119,13 +104,15 @@ namespace Block
             }
         }
 
-        private void ApplyJumpAction()
+        public void Jump()
         {
             var qtdJumps = PlayerBlock.BlockGrid.Values.Count(b => b is JumpBlock);
             if (qtdJumps == 0)
                 return;
+            
             var force = 0f;
             var initialForce = (PlayerBlock.BlockGrid.Values.FirstOrDefault(b => b is JumpBlock) as JumpBlock).JumpForce;
+            
             for (int i = 0; i < qtdJumps; i++)
             {
                 force += initialForce;
@@ -139,7 +126,7 @@ namespace Block
             }
         }
 
-        private void ApplyDashAction()
+        public void Dash()
         {
             foreach (var block in BlockGrid.Values.Where(block => block is DashBlock))
             {
@@ -147,7 +134,7 @@ namespace Block
             }
         }
 
-        private void ApplyShootAction()
+        public void Shoot()
         {
             foreach (var block in BlockGrid.Values.Where(block => block is ShootingBlock))
             {

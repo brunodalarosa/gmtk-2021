@@ -770,6 +770,10 @@ PrefabInstance:
       propertyPath: _player
       value: 
       objectReference: {fileID: 694455144}
+    - target: {fileID: 8729950986191936971, guid: b2b201f3024db504a8d1422e3ef5272f, type: 3}
+      propertyPath: _focusedBlock
+      value: 
+      objectReference: {fileID: 694455144}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2b201f3024db504a8d1422e3ef5272f, type: 3}
 --- !u!1001 &951388292

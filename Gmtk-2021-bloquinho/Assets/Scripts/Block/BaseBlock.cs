@@ -13,7 +13,6 @@ namespace Block
      */
     public abstract class BaseBlock : MonoBehaviour
     {
-
         [SerializeField]
         private Collider2D _collider;
         private Collider2D Collider => _collider;
