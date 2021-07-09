@@ -1,8 +1,9 @@
 using System;
+using Manager;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace GMTK2021
+namespace Block
 {
     /*
      * Se os blocos precisam alterar algo que impacte todos os blocos, é necessário que o componente esteja no player

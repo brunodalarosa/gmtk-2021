@@ -355,7 +355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6395167839654125529, guid: 6223a087bcde03141a9a699db62ae409, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.41859436
+      value: -0.4185791
       objectReference: {fileID: 0}
     - target: {fileID: 6395167839654125529, guid: 6223a087bcde03141a9a699db62ae409, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 1668008061}
   - component: {fileID: 1668008060}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ThankYourText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

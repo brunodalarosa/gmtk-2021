@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = System.Random;
 
-namespace GMTK2021
+namespace Manager
 {
     public class AudioManager : MonoBehaviour
     {

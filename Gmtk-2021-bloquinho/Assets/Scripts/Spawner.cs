@@ -1,5 +1,4 @@
 using System.Collections;
-using GMTK2021;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -8,8 +7,8 @@ public class Spawner : MonoBehaviour
     private const int DestroyInterval = 4;
 
     [SerializeField]
-    private Block _spawnee = null;
-    public Block Spawnee => _spawnee;
+    private Block.Block _spawnee = null;
+    private Block.Block Spawnee => _spawnee;
 
     [SerializeField]
     private GameObject _spawnPoint = null;
@@ -29,7 +28,7 @@ public class Spawner : MonoBehaviour
         {
             yield return new WaitForSeconds(SpawnInterval);
 
-            var rigid = new GameObject("rigido corpo");
+            var rigid = new GameObject("spawnee");
             
             rigid.AddComponent<Rigidbody2D>();
 

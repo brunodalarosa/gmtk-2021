@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GMTK2021
+namespace Block
 {
     public class ColorBlock : Block
     {

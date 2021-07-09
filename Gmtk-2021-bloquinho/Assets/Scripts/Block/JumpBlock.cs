@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace GMTK2021
+namespace Block
 {
     public class JumpBlock : Block
     {

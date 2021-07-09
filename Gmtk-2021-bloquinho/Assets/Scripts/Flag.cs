@@ -1,4 +1,4 @@
-using GMTK2021;
+using Manager;
 using UnityEngine;
 
 public class Flag : MonoBehaviour
@@ -11,6 +11,6 @@ public class Flag : MonoBehaviour
             return;
 
         AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.LevelComplete);
-        LevelManager.Instance.GoToNextLevel();
+        AdventureModeManager.Instance.GoToNextLevel();
     }
 }

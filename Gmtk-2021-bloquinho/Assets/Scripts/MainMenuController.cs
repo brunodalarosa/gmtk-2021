@@ -1,23 +1,24 @@
-using GMTK2021;
+using Manager;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField]
-    private Button _playButton = null;
-    private Button PlayButton => _playButton;
+    private Button _playAdventureModeButton = null;
+    private Button PlayAdventureModeButton => _playAdventureModeButton;
 
 
     private void Start()
     {
-        PlayButton.onClick.AddListener(GoToFirstLevel);
+        PlayAdventureModeButton.onClick.AddListener(GoToTransitionScene);
         AudioManager.Instance.PlayMainMenuMusic();
     }
 
-    public void GoToFirstLevel()
+    private void GoToTransitionScene()
     {
         AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.PlayFirstLevel);
-        LevelManager.Instance.GoToNextLevel();
+        SceneManager.LoadScene("TransitionScene");
     }
 }

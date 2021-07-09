@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3458198636152374026}
   - component: {fileID: 2837916015696136840}
   m_Layer: 0
-  m_Name: LagolasBlock
+  m_Name: ShooterBlock
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3104952400718873566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a27efe21d36aa9f478753afa71ae83e4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ccce2e3689a5644088c4e67309d9fed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _collider: {fileID: 2837916015696136840}
