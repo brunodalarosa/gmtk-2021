@@ -8,6 +8,6 @@ namespace Command
         {
         }
 
-        public abstract void Execute(BaseBlock block);
+        public abstract void Execute(LeaderBlock block);
     }
 }

@@ -10,9 +10,9 @@ namespace Block
 
         protected override void Action()
         {
-            var direction = PlayerBlock.FacingRight ? 1 : -1;
+            var direction = LeaderBlock.FacingRight ? 1 : -1;
 
-            PlayerBlock.Rigidbody2D.AddForce(new Vector2(direction, 0) * DashForce, ForceMode2D.Impulse);
+            LeaderBlock.Rigidbody2D.AddForce(new Vector2(direction, 0) * DashForce, ForceMode2D.Impulse);
         }
     }
 }

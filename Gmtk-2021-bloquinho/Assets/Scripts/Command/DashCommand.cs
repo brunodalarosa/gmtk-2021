@@ -8,17 +8,9 @@ namespace Command
         {
         }
 
-        public override void Execute(BaseBlock block)
+        public override void Execute(LeaderBlock leaderBlock)
         {
-            switch (block)
-            {
-                case DashBlock dashBlock:
-                    dashBlock.DoAction();
-                    break;
-                case PlayerBlock playerBlock:
-                    playerBlock.Dash();
-                    break;
-            }
+            leaderBlock.Dash();
         }
     }
 }

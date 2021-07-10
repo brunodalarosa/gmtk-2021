@@ -22,7 +22,7 @@ namespace Block
         public Animator Animator => _animator;
 
         protected Vector2 PositionFromPlayer { get; set; }
-        protected PlayerBlock PlayerBlock { get; set; }
+        protected LeaderBlock LeaderBlock { get; set; }
         public bool IsConnected { get; set; }
 
         private Transform Transform { get; set; }
@@ -44,17 +44,17 @@ namespace Block
         private void ConnectBlock(BaseBlock newBaseBlock, Direction direction)
         {
             AddNeighbour(newBaseBlock, direction);
-            newBaseBlock.ConnectBlockFrom(this, direction, PlayerBlock);
-            AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.BlockConnect);
+            newBaseBlock.ConnectBlockFrom(this, direction, LeaderBlock);
+            AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.BlockConnect);
         }
 
-        private void ConnectBlockFrom(BaseBlock parentBaseBlock, Direction direction, PlayerBlock playerBlock)
+        private void ConnectBlockFrom(BaseBlock parentBaseBlock, Direction direction, LeaderBlock playerBlock)
         {
-            PlayerBlock = playerBlock;
+            LeaderBlock = playerBlock;
 
             Transform.SetParent(parentBaseBlock.Transform);
             Transform.localPosition = direction.AsVector3();
-            Transform.rotation = PlayerBlock.Transform.rotation;
+            Transform.rotation = LeaderBlock.Transform.rotation;
 
             switch (direction)
             {
@@ -98,7 +98,7 @@ namespace Block
             if (direction != Direction.Down)
                 ConnectBlock(baseBlock, direction);
             else // Todas as direções estão ocupadas, vai para a próxima. Está priorizando left mas pode ser alterado
-                PlayerBlock.GetBlock(PositionFromPlayer + Direction.Left.AsVector2()).AddBlockClockwise(baseBlock);
+                LeaderBlock.GetBlock(PositionFromPlayer + Direction.Left.AsVector2()).AddBlockClockwise(baseBlock);
         }
 
         public void AddBlockFromCollision(BaseBlock baseBlock, GameObject go)
@@ -116,17 +116,17 @@ namespace Block
 
         private void AddNeighbour(BaseBlock baseBlock, Direction direction)
         {
-            PlayerBlock.AddBlock(baseBlock, PositionFromPlayer + direction.AsVector2());
+            LeaderBlock.AddBlock(baseBlock, PositionFromPlayer + direction.AsVector2());
         }
 
         private BaseBlock GetNeighbour(Direction direction)
         {
-            return PlayerBlock.GetBlock(PositionFromPlayer + direction.AsVector2());
+            return LeaderBlock.GetBlock(PositionFromPlayer + direction.AsVector2());
         }
 
         private BaseBlock GetNeighbourSafe(Direction direction)
         {
-            return PlayerBlock.GetBlockSafe(PositionFromPlayer + direction.AsVector2());
+            return LeaderBlock.GetBlockSafe(PositionFromPlayer + direction.AsVector2());
         }
 
         private bool HasNeighbour(Direction direction)

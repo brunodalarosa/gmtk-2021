@@ -1,5 +1,4 @@
 using Block;
-using UnityEngine;
 
 namespace Command
 {
@@ -12,12 +11,9 @@ namespace Command
             HorizontalInput = horizontalInput;
         }
 
-        public override void Execute(BaseBlock block)
+        public override void Execute(LeaderBlock leaderBlock)
         {
-            if (block is PlayerBlock playerBlock)
-            {
-                playerBlock.HandleMovement(HorizontalInput);
-            }
+            leaderBlock.HandleMovement(HorizontalInput);
         }
     }
 }

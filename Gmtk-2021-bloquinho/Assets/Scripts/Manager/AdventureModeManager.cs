@@ -7,10 +7,11 @@ namespace Manager
 {
     public class AdventureModeManager : MonoBehaviour
     {
-        private const int Finallevel = 9;
+        public const int Finallevel = 9;
 
         [SerializeField]
         private UnityEngine.Object[] _scenes;
+
         private UnityEngine.Object[] Scenes => _scenes;
 
         private int CurrentIndex { get; set; }
@@ -27,15 +28,11 @@ namespace Manager
                 Destroy(this);
         }
 
-        private void Start()
-        {
-            CurrentIndex = 0;
-        }
-
         public void GoToNextLevel()
         {
             if (CurrentIndex == Finallevel + 1)
             {
+                HeadsUpDisplay.Instance.Hide();
                 SceneManager.LoadScene("EndGame");
                 return;
             }
@@ -46,8 +43,14 @@ namespace Manager
             SceneManager.LoadScene($"Level{CurrentIndex}");
             HeadsUpDisplay.Instance.Reset();
             CurrentIndex++;
+        }
 
-            AudioManager.Instance.PlayLevelMusic();
+        public void SetStartingLevel(int levelIndex)
+        {
+            if (levelIndex >= Finallevel + 1)
+                throw new InvalidOperationException($"Can't Start from level {levelIndex}");
+
+            CurrentIndex = levelIndex;
         }
 
         public void ResetCurrentLevel()

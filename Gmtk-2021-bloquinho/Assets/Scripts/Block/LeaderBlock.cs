@@ -1,27 +1,18 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Enemy;
+using JetBrains.Annotations;
 using Level;
 using Manager;
 using UnityEngine;
 
-// ReSharper disable ConditionIsAlwaysTrueOrFalse
-
 namespace Block
 {
-    public class PlayerBlock : BaseBlock
+    [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
+    public class LeaderBlock : BaseBlock
     {
-        private const int BlockAddMode = 1; // 0 para clockwise, 1 para direção do bloco que encostou
-        private const float WalkSfxSecondsInterval = 0.4f;
-
-        [SerializeField]
-        private Rigidbody2D _rigidbody2D;
-        public Rigidbody2D Rigidbody2D => _rigidbody2D;
-
-        [SerializeField]
-        private SpriteRenderer _spriteRenderer;
-        public SpriteRenderer SpriteRenderer => _spriteRenderer;
+        private const float FeetRadius = 0.2f;
 
         [Header("Feet")]
         [SerializeField]
@@ -29,58 +20,61 @@ namespace Block
         private Transform FeetPos => _feetPos;
 
         [SerializeField]
-        private float _feetRadius;
-        private float FeetRadius => _feetRadius;
-
-        [SerializeField]
         private LayerMask _groundLayer;
         private LayerMask GroundLayer => _groundLayer;
 
+        [Header("Inner Block")]
+        [SerializeField]
+        private BaseBlock _innerBlock = null;
+        private BaseBlock InnerBlock => _innerBlock;
+        
+        public SpriteRenderer SpriteRenderer { get; set; }
+        public Rigidbody2D Rigidbody2D { get; set; }
+        
         private Dictionary<Vector2, BaseBlock> BlockGrid { get; set; }
-
-        private Vector3 _velocity = Vector3.zero;
-        private float Smoothness => 0.05f;
-        public bool Grounded { get; private set; }
         public bool FacingRight { get; private set; }
+        public bool Grounded { get; private set; }
 
-        private bool PlayingWalkSound { get; set; }
-
-        protected override void DidAwake()
+        private void Start()
         {
+            Rigidbody2D = GetComponent<Rigidbody2D>();
+            SpriteRenderer = GetComponent<SpriteRenderer>();
             BlockGrid = new Dictionary<Vector2, BaseBlock>();
-            PositionFromPlayer = Vector2.zero;
-            PlayerBlock = this;
+            LeaderBlock = this;
+
             IsConnected = true;
-            PlayingWalkSound = false;
+            FacingRight = true;
 
             tag = "Player";
-            FacingRight = true;
         }
-
+        
         private void FixedUpdate()
         {
             HandleAnimation();
             Grounded = Physics2D.OverlapCircle(FeetPos.position, FeetRadius, GroundLayer);
         }
 
+        public void CollidedWithEnemy(BaseEnemy enemy)
+        {
+            //todo expandir essa lógica, considerar qual o tipo de imigo que colidiu etc
+            AdventureModeManager.Instance.ResetCurrentLevel();
+        }
+        
         public void HandleMovement(float horizontalInput)
         {
-            var velocity = Rigidbody2D.velocity;
-            Vector3 targetVelocity = new Vector2(horizontalInput, velocity.y);
-            Rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, Smoothness);
-
-            if (Rigidbody2D.velocity.x != 0 && !PlayingWalkSound)
-            {
-                StartCoroutine(PlayWalkSfx());
-            }
+            GetWalkingBlock()?.HandleMovement(horizontalInput);
         }
 
-        private IEnumerator PlayWalkSfx()
+        public void StopWalking()
         {
-            PlayingWalkSound = true;
-            yield return new WaitForSeconds(WalkSfxSecondsInterval);
-            AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.WalkStep);
-            PlayingWalkSound = false;
+            GetWalkingBlock()?.HandleMovement(0);
+        }
+
+        [CanBeNull]
+        private WalkingBlock GetWalkingBlock()
+        {
+            if (InnerBlock is WalkingBlock) return InnerBlock as WalkingBlock;
+            return BlockGrid.Values.FirstOrDefault(block => block is WalkingBlock) as WalkingBlock;
         }
 
         private void HandleAnimation()
@@ -103,15 +97,17 @@ namespace Block
                 FacingRight = false;
             }
         }
-
+        
         public void Jump()
         {
-            var qtdJumps = PlayerBlock.BlockGrid.Values.Count(b => b is JumpBlock);
+            var qtdJumps = LeaderBlock.BlockGrid.Values.Count(b => b is JumpBlock);
+            if (InnerBlock is JumpBlock) qtdJumps++;
+            
             if (qtdJumps == 0)
                 return;
             
             var force = 0f;
-            var initialForce = (PlayerBlock.BlockGrid.Values.FirstOrDefault(b => b is JumpBlock) as JumpBlock).JumpForce;
+            var initialForce = (LeaderBlock.BlockGrid.Values.FirstOrDefault(b => b is JumpBlock) as JumpBlock).JumpForce;
             
             for (int i = 0; i < qtdJumps; i++)
             {
@@ -119,15 +115,17 @@ namespace Block
                 initialForce /= 2;
             }
 
-            if (PlayerBlock.Grounded)
+            if (LeaderBlock.Grounded)
             {
-                PlayerBlock.Rigidbody2D.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-                AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.Jump);
+                LeaderBlock.Rigidbody2D.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.Jump);
             }
         }
 
         public void Dash()
         {
+            if (InnerBlock is DashBlock dashBlock) dashBlock.DoAction();
+
             foreach (var block in BlockGrid.Values.Where(block => block is DashBlock))
             {
                 block.DoAction();
@@ -136,12 +134,14 @@ namespace Block
 
         public void Shoot()
         {
+            if (InnerBlock is ShootingBlock shootingBlock) shootingBlock.DoAction();
+            
             foreach (var block in BlockGrid.Values.Where(block => block is ShootingBlock))
             {
                 block.DoAction();
             }
         }
-
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
             var go = other.gameObject;
@@ -157,13 +157,11 @@ namespace Block
             Debug.Log($"Trigger: from:{gameObject.name}, to:{go.name}");
 
             var realCollidedBlock = GetNearestBlockFromCollision(go);
-
-            if (BlockAddMode == 0)
-                realCollidedBlock.AddBlockClockwise(block);
             realCollidedBlock.AddBlockFromCollision(block, go);
         }
-
-        //Encontra o bloco onde aconteceu de fato a colisão calculando pela distancia do bloco colidido e os blocos já associados ao Player
+        
+        //Encontra o bloco onde aconteceu de fato a colisão calculando pela distancia do bloco colidido e os blocos já
+        //associados ao Lider
         private BaseBlock GetNearestBlockFromCollision(GameObject collidedBlock)
         {
             BaseBlock nearest = this;
@@ -182,7 +180,7 @@ namespace Block
 
             return nearest;
         }
-
+        
         public void AddBlock(BaseBlock baseBlock, Vector2 position)
         {
             BlockGrid.Add(position, baseBlock);
@@ -215,7 +213,8 @@ namespace Block
 
         protected override void Action()
         {
-            // O player faz nada
         }
+
+        
     }
 }

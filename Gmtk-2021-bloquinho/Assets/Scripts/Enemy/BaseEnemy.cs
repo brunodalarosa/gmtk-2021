@@ -1,18 +1,32 @@
+using System.Collections;
+using Block;
 using Manager;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
-public class BaseEnemy : MonoBehaviour
+namespace Enemy
 {
-    private void OnTriggerEnter2D(Collider2D col)
+    [RequireComponent(typeof(Collider2D))]
+    public class BaseEnemy : MonoBehaviour
     {
-        if (col.tag == "Player")
-            AdventureModeManager.Instance.ResetCurrentLevel();
-    }
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
+                other.GetComponent<LeaderBlock>().CollidedWithEnemy(this);
+        }
 
-    public void Die()
-    {
-        AudioManager.Instance?.PlaySfx(AudioManager.SoundEffects.EnemyPoof);
-        Destroy(gameObject);
+        public void Die()
+        {
+            AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.EnemyPoof); 
+            
+            gameObject.SetActive(false);
+            
+            StartCoroutine(DestroyAfterEndOfFrame());
+        }
+
+        private IEnumerator DestroyAfterEndOfFrame()
+        {
+            yield return new WaitForEndOfFrame();
+            Destroy(gameObject);
+        }
     }
 }

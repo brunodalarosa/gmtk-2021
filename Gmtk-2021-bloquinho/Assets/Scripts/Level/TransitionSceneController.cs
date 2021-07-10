@@ -7,10 +7,6 @@ namespace Level
     public class TransitionSceneController : MonoBehaviour
     {
         [SerializeField]
-        private AdventureModeManager _adventureModeManagerPrefab = null;
-        private AdventureModeManager AdventureModeManagerPrefab => _adventureModeManagerPrefab;
-
-        [SerializeField]
         private HeadsUpDisplay _headUpDisplayPrefab = null;
         private HeadsUpDisplay HeadsUpDisplayPrefab => _headUpDisplayPrefab;
 
@@ -20,7 +16,6 @@ namespace Level
 
         private void Start()
         {
-            Instantiate(AdventureModeManagerPrefab);
             Instantiate(HeadsUpDisplayPrefab);
             Instantiate(GameplayCameraPrefab);
 
@@ -30,6 +25,7 @@ namespace Level
         private IEnumerator TransitionToGameplayCoroutine()
         {
             yield return new WaitForSeconds(1);
+            AudioManager.Instance.PlayLevelMusic();
             AdventureModeManager.Instance.GoToNextLevel();
         }
     }

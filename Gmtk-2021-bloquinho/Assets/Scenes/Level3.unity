@@ -1102,7 +1102,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a24514565915a84987f61e1b9b78190, type: 3}
+  m_Script: {fileID: 11500000, guid: 2dd4add215be9704db79ad5bb4b503e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &694455144 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 873923333779408088, guid: 7ef5a09d28e818f43ae62d9edb0cb195, type: 3}
+  m_PrefabInstance: {fileID: 694455142}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6307ea5485bc47d79a7d187745fc671a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &755141125 stripped
@@ -3089,7 +3100,7 @@ PrefabInstance:
     - target: {fileID: 8729950986191936971, guid: b2b201f3024db504a8d1422e3ef5272f, type: 3}
       propertyPath: _focusedBlock
       value: 
-      objectReference: {fileID: 694455143}
+      objectReference: {fileID: 694455144}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2b201f3024db504a8d1422e3ef5272f, type: 3}
 --- !u!1001 &1884455931

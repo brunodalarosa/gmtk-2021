@@ -12,7 +12,7 @@ namespace Block
         protected override void Action()
         {
             var bullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity, transform);
-            bullet.Init(PlayerBlock.FacingRight);
+            bullet.Init(LeaderBlock.FacingRight);
             AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.Shoot);
         }
     }

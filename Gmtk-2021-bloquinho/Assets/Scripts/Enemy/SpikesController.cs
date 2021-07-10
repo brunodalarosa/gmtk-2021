@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SpikesController : BaseEnemy
+namespace Enemy
 {
+    public class SpikesController : BaseEnemy
+    {
 
+    }
 }

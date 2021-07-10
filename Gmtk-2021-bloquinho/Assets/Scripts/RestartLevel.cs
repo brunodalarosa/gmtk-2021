@@ -7,7 +7,6 @@ public class RestartLevel : MonoBehaviour
 {
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-            AdventureModeManager.Instance.ResetCurrentLevel();
+        
     }
 }
