@@ -5,6 +5,7 @@ using Enemy;
 using JetBrains.Annotations;
 using Level;
 using Manager;
+using Observer;
 using UnityEngine;
 
 namespace Block
@@ -35,6 +36,8 @@ namespace Block
         public bool FacingRight { get; private set; }
         public bool Grounded { get; private set; }
 
+        private readonly BlockSubject _blockSubject = new BlockSubject();
+
         private void Start()
         {
             Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -57,7 +60,7 @@ namespace Block
         public void CollidedWithEnemy(BaseEnemy enemy)
         {
             //todo expandir essa lógica, considerar qual o tipo de imigo que colidiu etc
-            AdventureModeManager.Instance.ResetCurrentLevel();
+            _blockSubject.SendDeathEvent(this);
         }
         
         public void HandleMovement(float horizontalInput)
@@ -210,11 +213,24 @@ namespace Block
         {
             return GetBlock(position + direction.AsVector2());
         }
+        
+        public void ReachedEndOfLevel()
+        {
+            _blockSubject.SendReachedEndOfLevelEvent(this);
+        }
 
+        public void AddObserver(IGameObserver<IEvent> observer)
+        {
+            _blockSubject.AddObserver(observer);
+        }
+        
+        private void OnDestroy()
+        {
+            _blockSubject.ClearObservers();
+        }
+        
         protected override void Action()
         {
         }
-
-        
     }
 }

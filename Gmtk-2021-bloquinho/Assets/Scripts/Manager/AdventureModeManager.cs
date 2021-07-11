@@ -11,7 +11,6 @@ namespace Manager
 
         [SerializeField]
         private UnityEngine.Object[] _scenes;
-
         private UnityEngine.Object[] Scenes => _scenes;
 
         private int CurrentIndex { get; set; }
@@ -51,13 +50,6 @@ namespace Manager
                 throw new InvalidOperationException($"Can't Start from level {levelIndex}");
 
             CurrentIndex = levelIndex;
-        }
-
-        public void ResetCurrentLevel()
-        {
-            //TODO: animação de transição
-            HeadsUpDisplay.Instance.Reset();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

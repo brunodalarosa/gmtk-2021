@@ -18,9 +18,9 @@ namespace Enemy
         {
             AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.EnemyPoof); 
             
-            gameObject.SetActive(false);
-            
             StartCoroutine(DestroyAfterEndOfFrame());
+
+            gameObject.SetActive(false);
         }
 
         private IEnumerator DestroyAfterEndOfFrame()

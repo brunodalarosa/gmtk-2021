@@ -1,4 +1,4 @@
-using Manager;
+using Block;
 using UnityEngine;
 
 namespace Level
@@ -7,13 +7,8 @@ namespace Level
     {
         private void OnTriggerEnter2D(Collider2D other)
         {
-            var go = other.gameObject;
-
-            if (!go.CompareTag("Player"))
-                return;
-
-            AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.LevelComplete);
-            AdventureModeManager.Instance.GoToNextLevel();
+            if (other.CompareTag("Player"))
+                other.GetComponent<LeaderBlock>().ReachedEndOfLevel();
         }
     }
 }

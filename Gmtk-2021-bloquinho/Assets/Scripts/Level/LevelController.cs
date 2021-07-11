@@ -1,4 +1,7 @@
+using System;
 using Block;
+using Manager;
+using Observer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -6,13 +9,13 @@ using UnityEngine.Serialization;
 namespace Level
 {
     [RequireComponent(typeof(BlockInputHandler))]
-    public class LevelController : MonoBehaviour
+    public class LevelController : MonoBehaviour, IGameObserver<IEvent>
     {
         [FormerlySerializedAs("_focusedBlock")]
         [SerializeField]
         private LeaderBlock _startingLeaderBlock = null;
         private LeaderBlock StartingLeaderBlock => _startingLeaderBlock;
-        
+
         [SerializeField]
         private LeaderBlock _otherLeaderBlock = null;
         private LeaderBlock OtherLeaderBlock => _otherLeaderBlock;
@@ -26,7 +29,8 @@ namespace Level
             BlockInputHandler = GetComponent<BlockInputHandler>();
 
             FocusedLeaderBlock = StartingLeaderBlock;
-            
+            FocusedLeaderBlock.AddObserver(this);
+
             GameplayCamera.Instance.SetCamera(FocusedLeaderBlock.transform);
         }
 
@@ -35,12 +39,12 @@ namespace Level
             //necessário para o bloco que anda parar de andar depois de receber um input de andar
             StartingLeaderBlock?.StopWalking();
             OtherLeaderBlock?.StopWalking();
-            
+
             bool receivedLevelInput = ReadLevelInputs();
             if (receivedLevelInput) return;
-            
+
             BlockInputHandler.ReadInputs();
-            
+
             if (BlockInputHandler.Commands.Count > 0)
             {
                 foreach (var command in BlockInputHandler.Commands) command.Execute(FocusedLeaderBlock);
@@ -72,12 +76,33 @@ namespace Level
 
             FocusedLeaderBlock = FocusedLeaderBlock == StartingLeaderBlock ? OtherLeaderBlock : StartingLeaderBlock;
         }
-        
-        public void ResetCurrentLevel()
+
+        private void ResetCurrentLevel()
         {
             //TODO: animação de transição
             HeadsUpDisplay.Instance.Reset();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        private void FinishLevel()
+        {
+            AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.LevelComplete);
+            AdventureModeManager.Instance.GoToNextLevel();
+        }
+
+        public void ReceiveEvent(object subject, IEvent data)
+        {
+            switch (data)
+            {
+                case PlayerDiedEvent _:
+                    ResetCurrentLevel();
+                    break;
+                case PlayerReachedEndOfLevelEvent _:
+                    FinishLevel();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(data));
+            }
         }
     }
 }
