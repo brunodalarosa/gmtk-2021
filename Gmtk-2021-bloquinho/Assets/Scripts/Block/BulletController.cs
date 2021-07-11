@@ -15,10 +15,10 @@ namespace Block
         private float TimeToDestroy => _timeToDestroy;
 
         private float Direction { get; set; }
-
+        
         private void Start()
         {
-            Invoke("Die", TimeToDestroy);
+            Invoke(nameof(Die), TimeToDestroy);
         }
 
         public void Init(bool facingRight)
@@ -31,16 +31,28 @@ namespace Block
             transform.DOMoveX(transform.position.x + (Speed * 0.01f * Direction), 0);
         }
 
-        private void OnTriggerEnter2D(Collider2D col)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (col.tag == "Enemy")
-                col.gameObject.GetComponent<BaseEnemy>().Die();
+            if (other.CompareTag("Enemy")) other.gameObject.GetComponent<BaseEnemy>().Die();
+
+            Die();
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Player")) return;
+        
             Die();
         }
 
         private void Die()
         {
-            Destroy(this.gameObject);
+            _speed = 0f;
+            
+            var seq = DOTween.Sequence();
+            seq.Append(transform.DOScale(Vector3.zero, 0.25f));
+            seq.AppendCallback(() => Destroy(gameObject));
+            seq.Play();
         }
     }
 }

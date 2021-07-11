@@ -11,7 +11,10 @@ namespace Block
 
         protected override void Action()
         {
-            var bullet = Instantiate(BulletPrefab, transform.position, Quaternion.identity, transform);
+            var instantiantionPosition =
+                transform.position + (LeaderBlock.FacingRight ? Vector3.right * 0.75f : Vector3.left * 0.75f);
+            
+            var bullet = Instantiate(BulletPrefab, instantiantionPosition, Quaternion.identity); //todo Entender por que precisa ser filho do shooting block para funcionar...
             bullet.Init(LeaderBlock.FacingRight);
             AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.Shoot);
         }
