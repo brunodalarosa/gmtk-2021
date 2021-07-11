@@ -1,16 +1,19 @@
-﻿using UnityEngine;
+﻿using Manager;
+using UnityEngine;
 
 namespace Block
 {
     public class JumpBlock : BaseBlock
     {
-        [SerializeField]
-        private float _jumpForce = 15f;
-        public float JumpForce => _jumpForce;
+        public static float JumpForce => 21f;
         
         protected override void Action()
         {
-           //todo
+            if (LeaderBlock.Grounded)
+            {
+                LeaderBlock.Rigidbody2D.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
+                AudioManager.Instance.PlaySfx(AudioManager.SoundEffects.Jump);
+            }
         }
     }
 }

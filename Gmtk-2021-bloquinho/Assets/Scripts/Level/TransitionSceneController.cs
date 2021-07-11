@@ -10,14 +10,9 @@ namespace Level
         private HeadsUpDisplay _headUpDisplayPrefab = null;
         private HeadsUpDisplay HeadsUpDisplayPrefab => _headUpDisplayPrefab;
 
-        [SerializeField]
-        private GameplayCamera _gameplayCameraPrefab = null;
-        private GameplayCamera GameplayCameraPrefab => _gameplayCameraPrefab;
-
         private void Start()
         {
             Instantiate(HeadsUpDisplayPrefab);
-            Instantiate(GameplayCameraPrefab);
 
             StartCoroutine(TransitionToGameplayCoroutine());
         }

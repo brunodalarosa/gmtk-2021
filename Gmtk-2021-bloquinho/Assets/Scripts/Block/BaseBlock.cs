@@ -5,12 +5,6 @@ using UnityEngine;
 
 namespace Block
 {
-    /*
-     * Se os blocos precisam alterar algo que impacte todos os blocos, é necessário que o componente esteja no player
-     * e então acessado a partir do bloco que vai alterar ele. O jump é um exemplo, porque ele altera a posição do player
-     * e todos os outros blocos seguem a posição do player (por serem direta ou indiretamente filhos dele).
-     * Todos os blocos tem uma referência para bloco player.
-     */
     public abstract class BaseBlock : MonoBehaviour
     {
         [SerializeField]
@@ -82,29 +76,9 @@ namespace Block
             IsConnected = true;
         }
 
-        public void AddBlockClockwise(BaseBlock baseBlock)
-        {
-            var direction = Direction.Down;
-
-            // Ordem de adição dos blocos. Para alterar, só alterar a ordem da validação. Pode ser até aleatório.
-
-            if (!HasNeighbour(Direction.Up))
-                direction = Direction.Up;
-            else if (!HasNeighbour(Direction.Right))
-                direction = Direction.Right;
-            else if (!HasNeighbour(Direction.Left))
-                direction = Direction.Left;
-
-            if (direction != Direction.Down)
-                ConnectBlock(baseBlock, direction);
-            else // Todas as direções estão ocupadas, vai para a próxima. Está priorizando left mas pode ser alterado
-                LeaderBlock.GetBlock(PositionFromPlayer + Direction.Left.AsVector2()).AddBlockClockwise(baseBlock);
-        }
-
         public void AddBlockFromCollision(BaseBlock baseBlock, GameObject go)
         {
             var direction = go.transform.position - transform.position;
-            // Debug.Log("[OnTriggerEnter2D] direction -> " + direction);
 
             if (math.abs(direction.x) > math.abs(direction.y)) //É uma conexão horizontal
                 ConnectBlock(baseBlock, direction.x < 0 ? Direction.Left : Direction.Right);
@@ -117,21 +91,6 @@ namespace Block
         private void AddNeighbour(BaseBlock baseBlock, Direction direction)
         {
             LeaderBlock.AddBlock(baseBlock, PositionFromPlayer + direction.AsVector2());
-        }
-
-        private BaseBlock GetNeighbour(Direction direction)
-        {
-            return LeaderBlock.GetBlock(PositionFromPlayer + direction.AsVector2());
-        }
-
-        private BaseBlock GetNeighbourSafe(Direction direction)
-        {
-            return LeaderBlock.GetBlockSafe(PositionFromPlayer + direction.AsVector2());
-        }
-
-        private bool HasNeighbour(Direction direction)
-        {
-            return GetNeighbourSafe(direction) != null;
         }
 
         protected virtual void DidAwake() { }
@@ -148,30 +107,6 @@ namespace Block
 
     public static class DirectionExtensions
     {
-        public static Direction Opposite(this Direction direction)
-        {
-            return direction switch
-            {
-                Direction.Left => Direction.Right,
-                Direction.Up => Direction.Down,
-                Direction.Right => Direction.Left,
-                Direction.Down => Direction.Up,
-                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction")
-            };
-        }
-
-        public static Direction Clockwise(this Direction direction)
-        {
-            return direction switch
-            {
-                Direction.Left => Direction.Up,
-                Direction.Up => Direction.Right,
-                Direction.Right => Direction.Down,
-                Direction.Down => Direction.Left,
-                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, "Invalid direction")
-            };
-        }
-
         public static Vector2 AsVector2(this Direction direction)
         {
             return AsVector3(direction);

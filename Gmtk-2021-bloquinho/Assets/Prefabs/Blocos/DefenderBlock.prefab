@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3932729713239047600}
   - component: {fileID: -4118852512405544797}
   m_Layer: 0
-  m_Name: KasperskyBlock
+  m_Name: DefenderBlock
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

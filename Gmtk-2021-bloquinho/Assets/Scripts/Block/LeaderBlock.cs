@@ -13,6 +13,7 @@ namespace Block
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
     public class LeaderBlock : BaseBlock
     {
+        private static readonly int MoveX = Animator.StringToHash("MoveX");
         private const float FeetRadius = 0.2f;
 
         [Header("Feet")]
@@ -29,14 +30,14 @@ namespace Block
         private BaseBlock _innerBlock = null;
         private BaseBlock InnerBlock => _innerBlock;
         
-        public SpriteRenderer SpriteRenderer { get; set; }
-        public Rigidbody2D Rigidbody2D { get; set; }
-        
-        private Dictionary<Vector2, BaseBlock> BlockGrid { get; set; }
+        public SpriteRenderer SpriteRenderer { get; private set; }
+        public Rigidbody2D Rigidbody2D { get; private set; }
         public bool FacingRight { get; private set; }
         public bool Grounded { get; private set; }
 
+
         private readonly BlockSubject _blockSubject = new BlockSubject();
+        private Dictionary<Vector2, BaseBlock> BlockGrid { get; set; }
 
         private void Start()
         {
@@ -49,6 +50,8 @@ namespace Block
             FacingRight = true;
 
             tag = "Player";
+            
+            LevelController.Instance.RegisterAsLeaderBlock(this);
         }
         
         private void FixedUpdate()
@@ -82,11 +85,11 @@ namespace Block
 
         private void HandleAnimation()
         {
-            Animator.SetFloat("MoveX", Rigidbody2D.velocity.x);
+            Animator.SetFloat(MoveX, Rigidbody2D.velocity.x);
 
             foreach (var block in BlockGrid.Values)
             {
-                block.Animator.SetFloat("MoveX", Rigidbody2D.velocity.x);
+                block.Animator.SetFloat(MoveX, Rigidbody2D.velocity.x);
             }
 
             if (Rigidbody2D.velocity.x > 0.3)
@@ -110,7 +113,7 @@ namespace Block
                 return;
             
             var force = 0f;
-            var initialForce = (LeaderBlock.BlockGrid.Values.FirstOrDefault(b => b is JumpBlock) as JumpBlock).JumpForce;
+            var initialForce = JumpBlock.JumpForce;
             
             for (int i = 0; i < qtdJumps; i++)
             {
@@ -199,21 +202,6 @@ namespace Block
             HeadsUpDisplay.Instance.UpdateBlockStatus(baseBlock, quantity);
         }
 
-        public BaseBlock GetBlock(Vector2 position)
-        {
-            return BlockGrid[position];
-        }
-
-        public BaseBlock GetBlockSafe(Vector2 position)
-        {
-            return BlockGrid.ContainsKey(position) ? GetBlock(position) : null;
-        }
-
-        public BaseBlock GetNeighbourBlock(Vector2 position, Direction direction)
-        {
-            return GetBlock(position + direction.AsVector2());
-        }
-        
         public void ReachedEndOfLevel()
         {
             _blockSubject.SendReachedEndOfLevelEvent(this);

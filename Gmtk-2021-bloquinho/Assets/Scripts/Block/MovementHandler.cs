@@ -6,13 +6,14 @@ namespace Block
     {
         public Rigidbody2D Rigidbody2D;
 
-        private Vector3 Velocity = Vector3.zero;
-        private float Smoothness = 0.05f;
-        
-        void Update()
+        private Vector3 _velocity = Vector3.zero;
+        private const float Smoothness = 0.05f;
+
+        private void Update()
         {
-            Vector3 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * 10f, Rigidbody2D.velocity.y);
-            Rigidbody2D.velocity = Vector3.SmoothDamp(Rigidbody2D.velocity, targetVelocity, ref Velocity, Smoothness);
+            var velocity = Rigidbody2D.velocity;
+            Vector3 targetVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * 10f, velocity.y);
+            Rigidbody2D.velocity = Vector3.SmoothDamp(velocity, targetVelocity, ref _velocity, Smoothness);
         }
     }
 }

@@ -8,13 +8,13 @@ namespace StateMachine
     public class StateMachineManager : IStateMachineManager
     {
         private Stack<IState> StateStack { get; }
-        private LevelController _levelController { get; }
+        private LevelController LevelController { get; }
 
         public IState CurrentState => StateStack.Count > 0 ? StateStack.Peek() : null;
 
         public StateMachineManager(LevelController levelController)
         {
-            _levelController = levelController;
+            LevelController = levelController;
             StateStack = new Stack<IState>();
         }
 
@@ -45,12 +45,12 @@ namespace StateMachine
 
         public void ShowPauseOverlay()
         {
-            _levelController.ShowPauseOverlay();
+            LevelController.PauseGame();
         }
 
         public void HidePauseOverlay()
         {
-            _levelController.HidePauseOverlay();
+            LevelController.UnpauseGame();
         }
 
         public void OnPauseGameKeyPressed()

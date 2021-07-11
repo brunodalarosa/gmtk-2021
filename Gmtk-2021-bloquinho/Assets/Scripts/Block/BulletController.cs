@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using Enemy;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Block
         private float TimeToDestroy => _timeToDestroy;
 
         private float Direction { get; set; }
+        private bool _alreadyDying = false;
         
         private void Start()
         {
@@ -47,11 +49,14 @@ namespace Block
 
         private void Die()
         {
+            if (_alreadyDying) return;
+            
+            _alreadyDying = true;
             _speed = 0f;
             
             var seq = DOTween.Sequence();
             seq.Append(transform.DOScale(Vector3.zero, 0.25f));
-            seq.AppendCallback(() => Destroy(gameObject));
+            seq.OnComplete(() => Destroy(gameObject));
             seq.Play();
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Level
 {
-    public class BlockInputHandler : MonoBehaviour
+    public class BlocksInputHandler : MonoBehaviour
     {
         public float _walkingSpeed = 15f;
         
