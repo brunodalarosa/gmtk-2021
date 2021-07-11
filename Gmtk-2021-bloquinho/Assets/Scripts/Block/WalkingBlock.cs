@@ -25,7 +25,6 @@ namespace Block
 
         protected override void Action()
         {
-            // HandleMovement(value.GetValue());
         }
 
         public void HandleMovement(float horizontalInput)

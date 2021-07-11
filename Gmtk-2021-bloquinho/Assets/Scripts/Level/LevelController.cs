@@ -2,6 +2,8 @@ using System;
 using Block;
 using Manager;
 using Observer;
+using StateMachine;
+using StateMachine.State;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -11,6 +13,11 @@ namespace Level
     [RequireComponent(typeof(BlockInputHandler))]
     public class LevelController : MonoBehaviour, IGameObserver<IEvent>
     {
+        [SerializeField]
+        private Canvas _gamePausedCanvas = null;
+        private Canvas GamePausedCanvas => _gamePausedCanvas;
+        
+        
         [FormerlySerializedAs("_focusedBlock")]
         [SerializeField]
         private LeaderBlock _startingLeaderBlock = null;
@@ -23,10 +30,16 @@ namespace Level
         private LeaderBlock FocusedLeaderBlock { get; set; }
 
         private BlockInputHandler BlockInputHandler { get; set; }
+        
+        private IStateMachineManager StateMachine { get; set; }
+        // private IGameInputListener GameInputListener { get; set; }
 
         private void Start()
         {
+            GamePausedCanvas.gameObject.SetActive(false);
             BlockInputHandler = GetComponent<BlockInputHandler>();
+
+            InitializeStateMachine();
 
             FocusedLeaderBlock = StartingLeaderBlock;
             FocusedLeaderBlock.AddObserver(this);
@@ -34,14 +47,39 @@ namespace Level
             GameplayCamera.Instance.SetCamera(FocusedLeaderBlock.transform);
         }
 
+        private void InitializeStateMachine()
+        {
+            StateMachine = new StateMachineManager(this);
+            StateMachine.PushState(new DefaultGameplayState());
+        }
+
         private void Update()
         {
             //necessário para o bloco que anda parar de andar depois de receber um input de andar
             StartingLeaderBlock?.StopWalking();
             OtherLeaderBlock?.StopWalking();
+            
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                StateMachine.OnPauseGameKeyPressed();
+                return;
+            }
+            
+            if (!(StateMachine.CurrentState is DefaultGameplayState))
+                return;
 
-            bool receivedLevelInput = ReadLevelInputs();
-            if (receivedLevelInput) return;
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ResetCurrentLevel();
+                return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                SwitchFocusedLeaderBlock();
+                GameplayCamera.Instance.SetCamera(FocusedLeaderBlock.transform);
+                return;
+            }
 
             BlockInputHandler.ReadInputs();
 
@@ -51,25 +89,7 @@ namespace Level
                 BlockInputHandler.Commands.Clear();
             }
         }
-
-        private bool ReadLevelInputs()
-        {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                ResetCurrentLevel();
-                return true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                SwitchFocusedLeaderBlock();
-                GameplayCamera.Instance.SetCamera(FocusedLeaderBlock.transform);
-                return true;
-            }
-
-            return false;
-        }
-
+        
         private void SwitchFocusedLeaderBlock()
         {
             if (OtherLeaderBlock == null) return;
@@ -103,6 +123,18 @@ namespace Level
                 default:
                     throw new ArgumentOutOfRangeException(nameof(data));
             }
+        }
+
+        public void ShowPauseOverlay()
+        {
+            HeadsUpDisplay.Instance.Hide();
+            GamePausedCanvas.gameObject.SetActive(true);
+        }
+
+        public void HidePauseOverlay()
+        {
+            HeadsUpDisplay.Instance.Show();
+            GamePausedCanvas.gameObject.SetActive(false);
         }
     }
 }

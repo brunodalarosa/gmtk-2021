@@ -79,6 +79,16 @@ namespace Level
         {
             Reset();
         }
+        
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+        
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
 
         public void Reset()
         {
@@ -140,10 +150,5 @@ namespace Level
         }
 
         private static float GetAlphaForBlockUI(int qtd) => qtd < 1 ? 0.3f : 1.0f;
-
-        public void Hide()
-        {
-            Holder.gameObject.SetActive(false);
-        }
     }
 }
