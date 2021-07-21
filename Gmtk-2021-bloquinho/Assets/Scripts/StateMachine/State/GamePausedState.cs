@@ -10,13 +10,11 @@ namespace StateMachine.State
 
         public override void Finish()
         {
-            base.Finish();
             Manager.HidePauseOverlay();
         }
 
         public override void OnPauseGameKeyPressed()
         {
-            base.OnPauseGameKeyPressed();
             Manager.PopState();
         }
     }

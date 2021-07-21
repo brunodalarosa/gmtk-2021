@@ -10,12 +10,11 @@ using UnityEngine.SceneManagement;
 
 namespace Level
 {
-    [RequireComponent(typeof(BlocksInputHandler))]
-    public class LevelController : MonoBehaviour, IGameObserver<IEvent>
+    [RequireComponent(typeof(InputHandler))]
+    public class LevelController : MonoBehaviour, ILevelController, IGameObserver<IEvent>
     {
         public static LevelController Instance { get; private set; }
-        public IState CurrentGameState => StateMachine.CurrentState;
-
+        
         [SerializeField]
         private GameplayCamera _gameplayCamera = null;
         private GameplayCamera GameplayCamera => _gameplayCamera;
@@ -23,15 +22,14 @@ namespace Level
         [SerializeField]
         private Canvas _gamePausedCanvas = null;
         private Canvas GamePausedCanvas => _gamePausedCanvas;
+        
+        public IState CurrentGameState => StateMachine.CurrentState;
+        public LeaderBlock FocusedLeaderBlock => _leaderBlocks[_focusedLeaderBlockIndex];
+        private int _focusedLeaderBlockIndex;
 
         private readonly List<LeaderBlock> _leaderBlocks = new List<LeaderBlock>();
-        private int _focusedLeaderBlockIndex;
-        private LeaderBlock FocusedLeaderBlock => _leaderBlocks[_focusedLeaderBlockIndex];
 
-        private BlocksInputHandler BlocksInputHandler { get; set; }
-        
         private IStateMachineManager StateMachine { get; set; }
-        
 
         private void Awake()
         {
@@ -44,9 +42,14 @@ namespace Level
         private void Start()
         {
             GamePausedCanvas.gameObject.SetActive(false);
-            BlocksInputHandler = GetComponent<BlocksInputHandler>();
 
             InitializeStateMachine();
+        }
+        
+        private void InitializeStateMachine()
+        {
+            StateMachine = new StateMachineManager(this);
+            StateMachine.PushState(new DefaultGameplayState());
         }
 
         public void RegisterAsLeaderBlock(LeaderBlock leaderBlock)
@@ -63,71 +66,41 @@ namespace Level
             FocusCamera();
         }
 
-        private void InitializeStateMachine()
+        #region ILevelController Interface Methods
+
+        public void StopLeaderBlocksWalk()
         {
-            StateMachine = new StateMachineManager(this);
-            StateMachine.PushState(new DefaultGameplayState());
+            foreach (var leaderBlock in _leaderBlocks) leaderBlock.StopWalking();
         }
-
-        private void Update()
+        
+        public void OnPauseGameKeyPressed()
         {
-            StopLeaderBlocksWalk();
-            
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                StateMachine.OnPauseGameKeyPressed();
-                return;
-            }
-            
-            if (!(StateMachine.CurrentState is DefaultGameplayState))
-                return;
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                ResetCurrentLevel();
-                return;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                ChangeFocusedLeaderBlock();
-                FocusCamera();
-                return;
-            }
-
-            BlocksInputHandler.ReadInputs();
-
-            if (BlocksInputHandler.Commands.Count > 0)
-            {
-                foreach (var command in BlocksInputHandler.Commands) command.Execute(FocusedLeaderBlock);
-                BlocksInputHandler.Commands.Clear();
-            }
+            StateMachine.OnPauseGameKeyPressed();
+        }
+        
+        public void ResetCurrentLevel()
+        {
+            //TODO: animação de transição
+            HeadsUpDisplay.Instance.Reset();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         
         /// <summary>
         /// Cicla pela lista de blocos líder: Volta pro início se estiver focando no último.
         /// </summary>
-        private void ChangeFocusedLeaderBlock()
+        public void ChangeFocusedLeader()
         {
             _focusedLeaderBlockIndex++;
             _focusedLeaderBlockIndex %= _leaderBlocks.Count;
+            
+            FocusCamera();
         }
-        
+
+        #endregion
+
         private void FocusCamera()
         {
             GameplayCamera.SetCamera(FocusedLeaderBlock.transform);
-        }
-        
-        private void StopLeaderBlocksWalk()
-        {
-            foreach (var leaderBlock in _leaderBlocks) leaderBlock.StopWalking();
-        }
-
-        private void ResetCurrentLevel()
-        {
-            //TODO: animação de transição
-            HeadsUpDisplay.Instance.Reset();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         private void FinishLevel()
